@@ -1,3 +1,17 @@
-import feather from "feather-icons"
+import Vue from "../../node_modules/vue/dist/vue"
 
-feather.replace()
+
+const App = new Vue({
+    el: '#app',
+    data: () => ({
+        drawer: false,
+        snackbar: false
+    }),
+    computed: {},
+    methods: {
+        copyObj(obj) {
+            return JSON.parse(JSON.stringify(obj));
+        },
+    },
+    watch: {},
+})
