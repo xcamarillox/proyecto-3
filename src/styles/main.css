@@ -51,37 +51,15 @@ select {
     width: 95%;
 }
 
-
-/* .sidebar-sticky {
-    position: relative;
-    top: 0;
-    height: calc(100vh - 48px);
-    padding-top: .5rem;
-    overflow-x: hidden;
-    overflow-y: auto;
-} */
-
 .sidebar div {
     font-weight: 500;
     color: #333;
 }
 
-
-/* .sidebar .nav-link {
+.sidebar div.danger {
     font-weight: 500;
-    color: #333;
-} */
-
-
-/* .sidebar .nav-link.active {
-    color: #2470dc;
-} */
-
-
-/* .sidebar-heading {
-    font-size: .75rem;
-    text-transform: uppercase;
-} */
+    color: red;
+}
 
 
 /* Navbar */
