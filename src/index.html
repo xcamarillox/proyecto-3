@@ -14,7 +14,7 @@
 <body>
     <div id="app">
         <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-            <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Weather Board</a>
+            <div class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Weather Board</div>
             <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -54,13 +54,10 @@
                         <h1 class="h2 ">Dashboard</h1>
                         <div class="btn-toolbar mb-2 mb-md-0 ">
                             <div class="btn-group me-2 ">
-                                <button type="button " class="btn btn-sm btn-outline-secondary ">Share</button>
-                                <button type="button " class="btn btn-sm btn-outline-secondary ">Export</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" @click="getWeather">Hoy</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary">Gráfica</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary">Tabla</button>
                             </div>
-                            <button type="button " class="btn btn-sm btn-outline-secondary dropdown-toggle ">
-            <span data-feather="calendar "></span>
-            This week
-          </button>
                         </div>
                     </div>
 
