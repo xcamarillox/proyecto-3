@@ -1,4 +1,6 @@
+// From modules
 import axios from "axios"
+// Development
 import allMexico from "./locations.js";
 
 

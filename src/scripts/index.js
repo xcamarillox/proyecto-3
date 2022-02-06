@@ -1,9 +1,9 @@
-// From packages
+// From modules
 import Vue from "../../node_modules/vue/dist/vue"
-import 'regenerator-runtime/runtime';
-// Local development
+import 'regenerator-runtime/runtime'; // async await functions
+// Development
 import allMexico from "./locations.js";
-import { getLatAndLon, getCurrentWeather } from "./api-functions.js";
+import { getCurrentWeather } from "./api-functions.js";
 
 console.log(allMexico);
 
@@ -16,7 +16,8 @@ const App = new Vue({
         selectListItemIndex: 0,
         selectedItems: {
             idxs: [],
-            names: []
+            names: [],
+            data: []
         },
         places: allMexico
     }),
@@ -46,10 +47,14 @@ const App = new Vue({
             this.selectedItems.idxs[this.selectedItems.idxs.length - 1].push(index - 1);
             this.selectListCityToggle = !this.selectListCityToggle;
             this.selectListItemIndex = 0;
-            if (!this.selectListCityToggle) console.log(getLatAndLon(this.selectedItems.idxs[this.selectedItems.idxs.length - 1]));
+            if (!this.selectListCityToggle) this.refreshDashboard();
         },
         async getWeather() {
             console.log("getWeather:", await getCurrentWeather(this.selectedItems, 0))
+        },
+        async refreshDashboard() {
+            console.log("getWeather:", await getCurrentWeather(this.selectedItems, this.selectedItems.names.length - 1))
+
         }
     },
     watch: {},
