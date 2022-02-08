@@ -1,28 +1,20 @@
 // From modules
-import axios from "axios"
+//
 // Development
 import allMexico from "./locations.js";
 
 
 const APIkey = "0daa5082c483deefa2dd813c45f8a087";
 
-
-const getCurrentWeather = async(selectedItems, wantedIndex) => {
+const getFullWeatherData = async(selectedItems, wantedIndex) => {
+    const latAndLon = getLatAndLon(selectedItems.idxs[wantedIndex])
+    const endpoint = `https://api.openweathermap.org/data/2.5/onecall?lat=${latAndLon.lat}&lon=${latAndLon.lon}&appid=${APIkey}&units=metric`;
+    return getWeatherData(endpoint)
+}
+const getCurrentWeatherData = async(selectedItems, wantedIndex) => {
     const latAndLon = getLatAndLon(selectedItems.idxs[wantedIndex])
     const endpoint = `https://api.openweathermap.org/data/2.5/weather?lat=${latAndLon.lat}&lon=${latAndLon.lon}&appid=${APIkey}&units=metric`;
-    try {
-        const response = await axios.get(endpoint, {
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
-        if (response.status = 200) {
-            return response.data;
-        }
-        throw new Error('Request failed!');
-    } catch (error) {
-        console.log("error:", error);
-    }
+    return getWeatherData(endpoint)
 }
 
 const getLatAndLon = (idxs) => {
@@ -34,4 +26,17 @@ const getLatAndLon = (idxs) => {
     return latAndLon
 }
 
-export { getLatAndLon, getCurrentWeather }
+const getWeatherData = async(endpoint) => {
+    try {
+        const response = await fetch(endpoint);
+        if (response.ok) {
+            const jsonResponse = await response.json();
+            return jsonResponse;
+        }
+        throw new Error('Request failed!');
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export { getFullWeatherData, getCurrentWeatherData }

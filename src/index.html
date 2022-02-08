@@ -36,7 +36,7 @@
                             <li class="nav-item" v-for="(name, index) in selectedItems.names" :key="index">
                                 <div>{{index + 1}}.- {{name[0]}} ></div>
                                 <div :class="name[1] == undefined? 'danger': ''">{{name[1] == undefined? 'Selecciona una cuidad...': name[1]}}</div>
-                                <a href="# "><i class="bi bi-x-circle"></i></a>
+                                <a href="# "><i class="far fa-times-circle"></i></a>
                             </li>
                             <li class="nav-item" v-if="selectListShowToggle()">
                                 <select v-model="selectListItemIndex" class="form-select " @change="clickOnSelect($event.target.selectedIndex)">

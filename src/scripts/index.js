@@ -3,7 +3,7 @@ import Vue from "../../node_modules/vue/dist/vue"
 import 'regenerator-runtime/runtime'; // async await functions
 // Development
 import allMexico from "./locations.js";
-import { getCurrentWeather } from "./api-functions.js";
+import { getCurrentWeatherData, getFullWeatherData } from "./api-functions.js";
 
 console.log(allMexico);
 
@@ -50,11 +50,11 @@ const App = new Vue({
             if (!this.selectListCityToggle) this.refreshDashboard();
         },
         async getWeather() {
-            console.log("getWeather:", await getCurrentWeather(this.selectedItems, 0))
+            console.log("getWeather:", await getCurrentWeatherData(this.selectedItems, 0))
         },
         async refreshDashboard() {
-            console.log("getWeather:", await getCurrentWeather(this.selectedItems, this.selectedItems.names.length - 1))
-
+            console.log("getWeather:", await getCurrentWeatherData(this.selectedItems, this.selectedItems.names.length - 1))
+            console.log("getWeather:", await getFullWeatherData(this.selectedItems, this.selectedItems.names.length - 1))
         }
     },
     watch: {},
