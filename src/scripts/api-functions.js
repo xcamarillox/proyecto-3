@@ -10,12 +10,12 @@ const getCompleteWeatherData = async(selectedItems, wantedIndex, units) => {
     };
     let indexCount = 1;
     let latAndLon, endpoint;
-    if (wantedIndex == -1 || selectedItems.idxs[wantedIndex] == undefined) {
-        indexCount = selectedItems.idxs.length
+    if (wantedIndex == -1 || selectedItems.indexPathArr[wantedIndex] == undefined) {
+        indexCount = selectedItems.indexPathArr.length
         weatherData.isReturnAllMode = true
     };
     for (let i = 0; i < indexCount; i++) {
-        latAndLon = getLatAndLon(selectedItems.idxs[i])
+        latAndLon = getLatAndLon(selectedItems.indexPathArr[i])
         endpoint = `https://api.openweathermap.org/data/2.5/onecall?lat=${latAndLon.lat}&lon=${latAndLon.lon}&appid=${APIkey}&units=${units}`;
         weatherData.dataArray.push(await getWeatherData(endpoint));
     }
