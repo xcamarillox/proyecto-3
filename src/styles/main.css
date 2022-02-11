@@ -44,12 +44,17 @@ header span {
 
 .nav-item {
     margin: 5px;
-    width: 95%;
+    width: calc(95% - 5px);
 }
 
 .sidebar div {
     font-weight: 500;
     color: #333;
+}
+
+.sidebar .status {
+    font-weight: 500;
+    color: red;
 }
 
 .sidebar div>a:hover {

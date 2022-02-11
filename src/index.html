@@ -18,7 +18,7 @@
             <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <!-- <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search"> -->
+            <input class="form-control form-control-dark w-100" type="text" placeholder="Buscar" aria-label="Buscar">
             <div class="navbar-nav">
                 <div class="nav-item text-nowrap">
                     <a class="nav-link px-3" href="#">
@@ -34,19 +34,18 @@
                     <div class="position-sticky pt-3">
                         <ul class="nav flex-column">
                             <li class="nav-item" v-for="(name, index) in selectedItems.namesPathArr" :key="index">
-                                <div v-if="name[0].length>0">{{index + 1}}.- <i class="fa-solid fa-circle" :style="itemColorStyleFunc(index)"></i> {{name[0]}}></div>
-                                <div v-if="name[0].length>0">{{name[1]}}</div>
-                                <div v-if="name[0].length==0">{{index + 1}}.- <i class="fa-solid fa-circle" :style="itemColorStyleFunc(index)"></i> {{name[1]}}</div>
+                                <div>{{index + 1}}.- <i class="fa-solid fa-circle" :style="itemColorStyleFunc(index)"></i> {{name[0].length==0?name[1]:name[0]+" >"}}</div>
+                                <span v-if="name[0].length>0">{{name[1]}}</span><span class="status" v-if="selectedItems.statusArr[index]!='READY'"> [{{selectedItems.statusArr[index]}}]</span>
                                 <div class="icons">
-                                    <a class="text-secondary" @click="deleteItem(index)"><i class="fa-regular fa-circle-xmark"></i></a>
-                                    <a class="text-secondary" @click="moveItem(index, 'up')"><i class="fa-regular fa-circle-up"></i></a>
-                                    <a class="text-secondary" @click="moveItem(index, 'down')"><i class="fa-regular fa-circle-down"></i></a>
-                                    <a class="text-secondary" @click="editItem(index)" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa-regular fa-pen-to-square"></i></a>
+                                    <a class="text-secondary" @click="deleteItem(index)"><i class="fa-regular fa-circle-xmark fa-lg"></i></a>
+                                    <a class="text-secondary" @click="moveItem(index, 'up')"><i class="fa-regular fa-circle-up fa-lg"></i></a>
+                                    <a class="text-secondary" @click="moveItem(index, 'down')"><i class="fa-regular fa-circle-down fa-lg"></i></a>
+                                    <a class="text-secondary" @click="editItem(index)" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa-regular fa-pen-to-square fa-lg"></i></a>
                                 </div>
                             </li>
-                            <button type="button" class="btn btn-secondary nav-item" v-if="selectedItems.namesPathArr.length<4" @click="initModal(1)" data-bs-toggle="modal" data-bs-target="#myModal">Añadir Ubicación...</button>
                         </ul>
-
+                        <button type="button" class="btn btn-outline-secondary nav-item" v-if="selectedItems.namesPathArr.length>0" @click="updateWeatherData(-1, 'metric')"><i class="fa-solid fa-rotate"></i></button>
+                        <button type="button" class="btn btn-secondary nav-item" v-if="selectedItems.namesPathArr.length<6" @click="initModal(1)" data-bs-toggle="modal" data-bs-target="#myModal">Añadir Ubicación...</button>
                     </div>
                 </nav>
                 <!-- ********************** main ********************** -->
@@ -207,27 +206,6 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <!-- <div class="form-check mb-3">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadio1" v-model="modalData.radioValue" value="1">
-                            <label class="form-check-label mb-2" for="flexRadio1">
-                              Selección por Cuidad
-                            </label>
-                            <div class="mb-3">{{modalData.placePath}} <i v-show="modalData.showErasePlaceIcon" class="far fa-times-circle"></i></a>
-                            </div>
-                            <select v-model="selectListData.selectedItemIndex" :disabled="selectListData.disabledToggle" class="form-select mb-3" @change="changeOnSelect($event.target.selectedIndex)">
-                                <option :value="index" v-for="(place, index) in selectListData.places" :key="index">{{place}}</option>
-                            </select>
-                        </div>
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadio2" v-model="modalData.radioValue" value="2">
-                            <label class="form-check-label mb-2" for="flexRadio2">
-                                Selección por coordenadas
-                            </label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="[lon],[lat] Ejem: -21.77,-102.35" @input="changeOnInput($event.target.selectedIndex)">
-                                <input type="text" class="form-control" placeholder="[alias(opcional)]" @input="changeOnInput($event.target.selectedIndex)">
-                            </div>
-                        </div> -->
                         <div class="input-group mb-3">
                             <span class="input-group-text">
                                 <input class="form-check-input mt-0" type="radio" name="flexRadioDefault" id="flexRadio1" v-model="modalData.radioValue" value="1" @change=changeOnRadio>

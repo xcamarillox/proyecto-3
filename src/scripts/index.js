@@ -17,7 +17,8 @@ const App = new Vue({
         selectedItems: {
             indexPathArr: [],
             namesPathArr: [],
-            dataArr: []
+            dataArr: [],
+            statusArr: []
         },
     }),
     computed: {
@@ -78,16 +79,15 @@ const App = new Vue({
             let cacheArr = [];
             if (this.modalData.radioValue == 1) {
                 cacheArr.push(allMexico[this.selectListData.indexPath[0]].name);
-                cacheArr.push(allMexico[this.selectListData.indexPath[0]].cities[this.selectListData.indexPath[1]].name)
-                this.selectedItems.indexPathArr.splice(this.modalData.itemIndex, 1, this.copyObj(this.selectListData.indexPath))
-                    //this.selectedItems.indexPathArr.push(this.copyObj(this.selectListData.indexPath))
+                cacheArr.push(allMexico[this.selectListData.indexPath[0]].cities[this.selectListData.indexPath[1]].name);
+                this.selectedItems.indexPathArr.splice(this.modalData.itemIndex, 1, this.copyObj(this.selectListData.indexPath));
             } else if (this.modalData.radioValue == 2) {
                 cacheArr.push(this.inputsData.alias);
                 cacheArr.push(this.inputsData.coord);
-                this.selectedItems.indexPathArr.splice(this.modalData.itemIndex, 1, [allMexico.length, allMexico.length])
-                    //this.selectedItems.indexPathArr.push([allMexico.length, allMexico.length])
+                this.selectedItems.indexPathArr.splice(this.modalData.itemIndex, 1, [allMexico.length, allMexico.length]);
             }
-            this.selectedItems.namesPathArr.splice(this.modalData.itemIndex, 1, cacheArr)
+            this.selectedItems.namesPathArr.splice(this.modalData.itemIndex, 1, cacheArr);
+            this.updateWeatherData(this.modalData.itemIndex, "metric");
         },
         changeOnInput() {
             let splitArr = this.inputsData.coord.split(",");
@@ -125,11 +125,12 @@ const App = new Vue({
                 this.modalData.selectListDataReady = true;
             }
             this.selectListData.cityToggle = !this.selectListData.cityToggle
-                //if (!this.selectListCityToggle) this.refreshDashboard();
         },
         deleteItem(index) {
             this.selectedItems.indexPathArr.splice(index, 1);
             this.selectedItems.namesPathArr.splice(index, 1);
+            this.selectedItems.dataArr.splice(index, 1);
+            this.selectedItems.statusArr.splice(index, 1);
         },
         moveItem(index, direction) {
             if (index == 0 && direction == "up") return
@@ -139,10 +140,16 @@ const App = new Vue({
             else expression = index + 1;
             let cacheIndex = this.copyObj(this.selectedItems.indexPathArr[index])
             let cacheName = this.copyObj(this.selectedItems.namesPathArr[index])
+            let cacheData = this.copyObj(this.selectedItems.dataArr[index])
+            let cacheStatus = this.copyObj(this.selectedItems.statusArr[index])
             this.selectedItems.indexPathArr.splice(index, 1, this.copyObj(this.selectedItems.indexPathArr[expression]));
             this.selectedItems.namesPathArr.splice(index, 1, this.copyObj(this.selectedItems.namesPathArr[expression]));
+            this.selectedItems.dataArr.splice(index, 1, this.copyObj(this.selectedItems.dataArr[expression]));
+            this.selectedItems.statusArr.splice(index, 1, this.copyObj(this.selectedItems.statusArr[expression]));
             this.selectedItems.indexPathArr.splice(expression, 1, cacheIndex);
             this.selectedItems.namesPathArr.splice(expression, 1, cacheName);
+            this.selectedItems.dataArr.splice(expression, 1, cacheData);
+            this.selectedItems.statusArr.splice(expression, 1, cacheStatus);
         },
         editItem(index) {
             this.initModal(2);
@@ -167,18 +174,24 @@ const App = new Vue({
             }
         },
         itemColorStyleFunc(index) {
-            return "color:" + this.indexToColor(index)
+            return "color:" + this.indexToColor(index) + ";"
         },
         indexToColor(index) {
             switch (index) {
                 case 0:
-                    return "blue;";
+                    return "blue";
                 case 1:
-                    return "red;";
+                    return "red";
                 case 2:
-                    return "purple;";
+                    return "green";
                 case 3:
-                    return "orange;";
+                    return "orange";
+                case 4:
+                    return "purple";
+                case 5:
+                    return "pink";
+                case 6:
+                    return "olive";
                 default:
                     return "black;";
             }
@@ -186,9 +199,23 @@ const App = new Vue({
         async getWeather() {
             console.log("getWeather", await getCompleteWeatherData(this.selectedItems, -1, "metric"))
         },
-        async refreshDashboard() {
-            console.log("this.selectedItems", this.selectedItems)
-            console.log("getCompleteWeatherData:", await getCompleteWeatherData(this.selectedItems, this.selectedItems.names.length - 1), "metric")
+        async updateWeatherData(wantedIndex, wantedUnits) {
+            if (wantedIndex == -1 || this.selectedItems.indexPathArr[wantedIndex] == undefined)
+                for (let i = 0; i < this.selectedItems.statusArr.length; i++) this.selectedItems.statusArr.splice(i, 1, "PENDING");
+            else this.selectedItems.statusArr.splice(wantedIndex, 1, "PENDING");
+            let weatherData = await getCompleteWeatherData(this.selectedItems, wantedIndex, wantedUnits);
+            let isOneItem = weatherData.dataArray.length == 1;
+            for (let i = 0; i < weatherData.dataArray.length; i++) {
+                if (weatherData.dataArray[i] != undefined) {
+                    this.selectedItems.statusArr.splice(isOneItem ? wantedIndex : i, 1, "READY");
+                    this.selectedItems.dataArr.splice(isOneItem ? wantedIndex : i, 1, weatherData.dataArray[i]);
+                } else {
+                    this.selectedItems.statusArr.splice(isOneItem ? wantedIndex : i, 1, "FAILED");
+                }
+            }
+            console.log("updateWeatherData", this.selectedItems)
+                //console.log("getCompleteWeatherData:", await getCompleteWeatherData(this.selectedItems, (this.selectedItems.namesPathArr.length - 1), "metric"))
+                //console.log("getCompleteWeatherData:", await getCurrentWeatherData(this.selectedItems, (this.selectedItems.namesPathArr.length - 1), "metric"))
         }
     },
     watch: {},

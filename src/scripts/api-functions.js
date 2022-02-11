@@ -3,20 +3,21 @@ import allMexico from "./locations.js";
 
 const APIkey = "0daa5082c483deefa2dd813c45f8a087";
 
-const getCompleteWeatherData = async(selectedItems, wantedIndex, units) => {
+const getCompleteWeatherData = async(selectedItems, wantedIndex, wantedUnits) => {
     let weatherData = {
         dataArray: [],
         isReturnAllMode: false
     };
     let indexCount = 1;
     let latAndLon, endpoint;
-    if (wantedIndex == -1 || selectedItems.indexPathArr[wantedIndex] == undefined) {
-        indexCount = selectedItems.indexPathArr.length
-        weatherData.isReturnAllMode = true
+    let expression = wantedIndex == -1 || selectedItems.indexPathArr[wantedIndex] == undefined;
+    if (expression) {
+        indexCount = selectedItems.indexPathArr.length;
+        weatherData.isReturnAllMode = true;
     };
     for (let i = 0; i < indexCount; i++) {
-        latAndLon = getLatAndLon(selectedItems.indexPathArr[i])
-        endpoint = `https://api.openweathermap.org/data/2.5/onecall?lat=${latAndLon.lat}&lon=${latAndLon.lon}&appid=${APIkey}&units=${units}`;
+        latAndLon = getLatAndLon(selectedItems.indexPathArr[expression ? i : wantedIndex], selectedItems.namesPathArr[expression ? i : wantedIndex])
+        endpoint = `https://api.openweathermap.org/data/2.5/onecall?lat=${latAndLon.lat}&lon=${latAndLon.lon}&appid=${APIkey}&units=${wantedUnits}`;
         weatherData.dataArray.push(await getWeatherData(endpoint));
     }
     return weatherData;
@@ -24,16 +25,17 @@ const getCompleteWeatherData = async(selectedItems, wantedIndex, units) => {
 
 //const getCurrentWeatherData = async(selectedItems, wantedIndex, units) => {}
 
-const getLatAndLon = (idxs) => {
-    let latAndLon
-    if (idxs[0] > allMexico[idxs[0]].length || idxs[1] > allMexico[idxs[0]].cities[idxs[1]].length) {
-        // TODO
+const getLatAndLon = (indexPath, namesPath) => {
+    let latAndLon;
+    let latAndLonArr;
+    if (indexPath[0] >= allMexico.length || indexPath[1] >= allMexico[indexPath[0]].cities.length) {
+        latAndLonArr = namesPath[1].split(",", 2);
     } else {
-        const latAndLonArr = allMexico[idxs[0]].cities[idxs[1]].coordinates.split(",", 2)
-        latAndLon = {
-            lat: latAndLonArr[0].trim(),
-            lon: latAndLonArr[1].trim()
-        }
+        latAndLonArr = allMexico[indexPath[0]].cities[indexPath[1]].coordinates.split(",", 2)
+    }
+    latAndLon = {
+        lat: latAndLonArr[0].trim(),
+        lon: latAndLonArr[1].trim()
     }
     return latAndLon
 }
