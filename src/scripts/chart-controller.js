@@ -12,11 +12,11 @@ const getMyChart = (selectedItems, mode) => {
 }
 
 const currentChart = (selectedItems) => {
-    console.log(selectedItems);
     let xValues = [];
     let yValues = [];
     let barColors = [];
     for (let i = 0; i < selectedItems.dataArr.length; i++) {
+        if (selectedItems.dataArr[i] == undefined) continue;
         xValues.push(selectedItems.namesPathArr[i][0] + " " + selectedItems.namesPathArr[i][1])
         yValues.push(selectedItems.dataArr[i].current.temp)
         barColors.push(indexToColor(i))
@@ -47,7 +47,6 @@ const currentChart = (selectedItems) => {
 }
 
 const dailyForecastChart = (selectedItems) => {
-    console.log(selectedItems);
     let xValues = [0, 1, 2, 3, 4, 5, 6, 7];
 
     let chartOptions = {
@@ -75,16 +74,15 @@ const dailyForecastChart = (selectedItems) => {
             label: selectedItems.namesPathArr[i][0] + " " + selectedItems.namesPathArr[i][1],
             data: []
         })
+        if (selectedItems.dataArr[i] == undefined) continue;
         for (let j = 0; j < selectedItems.dataArr[i].daily.length; j++) {
             myChart.data.datasets[i].data.push(selectedItems.dataArr[i].daily[j].temp.day)
         }
     }
-    console.log("myChart", myChart)
     return myChart;
 }
 
 const hourlyForecastChart = (selectedItems) => {
-    console.log(selectedItems);
     let xValues = []
     for (let i = 0; i < 48; i++) xValues.push(i)
 
@@ -113,11 +111,11 @@ const hourlyForecastChart = (selectedItems) => {
             label: selectedItems.namesPathArr[i][0] + " " + selectedItems.namesPathArr[i][1],
             data: []
         })
+        if (selectedItems.dataArr[i] == undefined) continue;
         for (let j = 0; j < selectedItems.dataArr[i].hourly.length; j++) {
             myChart.data.datasets[i].data.push(selectedItems.dataArr[i].hourly[j].temp)
         }
     }
-    console.log("myChart", myChart)
     return myChart;
 }
 

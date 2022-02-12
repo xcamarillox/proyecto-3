@@ -193,6 +193,7 @@ const App = new Vue({
                     this.selectedItems.dataArr.splice(isOneItem ? wantedIndex : i, 1, weatherData.dataArray[i]);
                 } else {
                     this.selectedItems.statusArr.splice(isOneItem ? wantedIndex : i, 1, "FAILED");
+                    this.selectedItems.dataArr.splice(isOneItem ? wantedIndex : i, 1, undefined);
                 }
             }
             //for (let i = 0; i < this.selectedItems.selectedArr.length; i++) console.log(i, this.selectedItems.dataArr[i].current.temp, this.selectedItems.selectedArr[i], this.selectedItems.namesPathArr[i], this.selectedItems.statusArr[i])
