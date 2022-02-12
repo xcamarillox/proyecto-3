@@ -1,16 +1,19 @@
 // From modules
 import bootstrap from "bootstrap"
 import Vue from "../../node_modules/vue/dist/vue"
+import Chart from 'chart.js/auto';
 import 'regenerator-runtime/runtime'; // async await functions
 // Development
 import allMexico from "./locations.js";
 import { getCompleteWeatherData } from "./api-functions.js";
+import { getMyChart, indexToColor } from "./chart-controller.js";
 
-console.log(allMexico);
+//console.log(allMexico);
 
 const App = new Vue({
     el: '#app',
     data: () => ({
+        myChart: null,
         modalData: {},
         selectListData: {},
         inputsData: {},
@@ -173,27 +176,7 @@ const App = new Vue({
             }
         },
         itemColorStyleFunc(index) {
-            return "color:" + this.indexToColor(index) + ";"
-        },
-        indexToColor(index) {
-            switch (index) {
-                case 0:
-                    return "blue";
-                case 1:
-                    return "red";
-                case 2:
-                    return "green";
-                case 3:
-                    return "orange";
-                case 4:
-                    return "purple";
-                case 5:
-                    return "pink";
-                case 6:
-                    return "olive";
-                default:
-                    return "black;";
-            }
+            return "color:" + indexToColor(index) + ";"
         },
         async getWeather() {
             console.log("getWeather", await getCompleteWeatherData(this.selectedItems, -1, "metric"))
@@ -214,7 +197,12 @@ const App = new Vue({
             }
             //for (let i = 0; i < this.selectedItems.selectedArr.length; i++) console.log(i, this.selectedItems.dataArr[i].current.temp, this.selectedItems.selectedArr[i], this.selectedItems.namesPathArr[i], this.selectedItems.statusArr[i])
             //console.log("_______________________")
-        }
+            this.updateChartData();
+        },
+        updateChartData() {
+            if (this.myChart != null) this.myChart.destroy();
+            this.myChart = new Chart('myChart', getMyChart(this.selectedItems, 2));
+        },
     },
     watch: {},
 })
