@@ -134,6 +134,7 @@ const App = new Vue({
             this.selectedItems.namesPathArr.splice(index, 1);
             this.selectedItems.dataArr.splice(index, 1);
             this.selectedItems.statusArr.splice(index, 1);
+            this.updateChartData();
         },
         moveItem(index, direction) {
             if (index == 0 && direction == "up") return
@@ -153,6 +154,7 @@ const App = new Vue({
             this.selectedItems.namesPathArr.splice(expression, 1, cacheName);
             this.selectedItems.dataArr.splice(expression, 1, cacheData);
             this.selectedItems.statusArr.splice(expression, 1, cacheStatus);
+            this.updateChartData();
         },
         editItem(index) {
             this.initModal(2);
@@ -201,8 +203,9 @@ const App = new Vue({
             this.updateChartData();
         },
         updateChartData() {
+            console.log(this.selectedItems)
             if (this.myChart != null) this.myChart.destroy();
-            this.myChart = new Chart('myChart', getMyChart(this.selectedItems, 2));
+            this.myChart = new Chart('myChart', getMyChart(this.selectedItems, 1));
         },
     },
     watch: {},
