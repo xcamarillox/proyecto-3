@@ -6,13 +6,12 @@ import 'regenerator-runtime/runtime'; // async await functions
 // Development
 import allMexico from "./locations.js";
 import { getCompleteWeatherData } from "./api-functions.js";
-import { getMyChart, indexToColor } from "./chart-controller.js";
-
-//console.log(allMexico);
+import { getMyChart, indexToColor, getProximosDias, getWindDirectionLabel } from "./chart-controller.js";
 
 const App = new Vue({
     el: '#app',
     data: () => ({
+        proximosDias: getProximosDias(-1, 9),
         myChart: null,
         modalData: {},
         selectListData: {},
@@ -202,10 +201,13 @@ const App = new Vue({
             //console.log("_______________________")
             this.updateChartData();
         },
+        windDirection(windDeg) {
+            return getWindDirectionLabel(windDeg)
+        },
         updateChartData() {
             console.log(this.selectedItems)
             if (this.myChart != null) this.myChart.destroy();
-            this.myChart = new Chart('myChart', getMyChart(this.selectedItems, 1));
+            this.myChart = new Chart('myChart', getMyChart(this.selectedItems, 3));
         },
     },
     watch: {},

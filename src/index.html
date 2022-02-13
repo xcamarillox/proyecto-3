@@ -74,75 +74,387 @@
                                 <tr>
                                     <th scope="col "> </th>
                                     <th v-for="(item, index) in selectedItems.namesPathArr" :key="index">{{item[0]}} > {{item[1]}}</th>
-                                    <!-- <th scope="col ">Header</th>
-                                    <th scope="col ">Header</th>
-                                    <th scope="col ">Header</th> -->
                                 </tr>
                             </thead>
                             <tbody>
+                                <!-- ***************HOY*************** -->
                                 <tr>
-                                    <th scope="col ">Actual</th>
+                                    <th :colspan="selectedItems.dataArr.length + 1" class="text-center">HOY</th>
+                                </tr>
+                                <tr>
+                                    <th scope="col ">Ahora</th>
                                     <td v-for="(actual, index) in selectedItems.dataArr" :key="index">{{actual.current.temp}}</td>
-                                    <!-- <td>random</td>
-                                    <td>data</td>
-                                    <td>placeholder</td>
-                                    <td>text</td> -->
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Dia 0</th>
-                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.daily[0].temp.day}}</td>
-                                    <!-- <td>irrelevant</td>
-                                    <td>visual</td>
-                                    <td>layout</td> -->
+                                    <th scope="col ">Sensación Térmica</th>
+                                    <td v-for="(actual, index) in selectedItems.dataArr" :key="index">{{actual.current.feels_like}}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Dia 1</th>
-                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.daily[1].temp.day}}</td>
-                                    <!-- <td>rich</td>
-                                    <td>dashboard</td>
-                                    <td>tabular</td> -->
+                                    <th scope="col ">Max / Min</th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.daily[0].temp.max}} / {{diario.daily[0].temp.min}}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Dia 2</th>
-                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.daily[2].temp.day}}</td>
-                                    <!-- <td>placeholder</td>
-                                    <td>illustrative</td>
-                                    <td>data</td> -->
+                                    <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad</th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.daily[0].pop * 100}}% / {{diario.daily[0].humidity}}%</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Dia 3</th>
-                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.daily[3].temp.day}}</td>
-                                    <!-- <td>random</td>
-                                    <td>layout</td>
-                                    <td>dashboard</td> -->
+                                    <th scope="col ">Dirección y Velocidad del Viento</th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{windDirection(diario.daily[0].wind_deg)}} {{diario.daily[0].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************DIA1*************** -->
+                                <tr>
+                                    <th :colspan="selectedItems.dataArr.length + 1" class="text-center">{{proximosDias[1]}}</th>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Dia 4</th>
-                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.daily[4].temp.day}}</td>
-                                    <!-- <td>irrelevant</td>
-                                    <td>text</td>
-                                    <td>placeholder</td> -->
+                                    <th scope="col ">Max / Min</th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.daily[1].temp.max}} / {{diario.daily[1].temp.min}}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Dia 5</th>
-                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.daily[5].temp.day}}</td>
-                                    <!-- <td>illustrative</td>
-                                    <td>rich</td>
-                                    <td>data</td> -->
+                                    <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad</th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.daily[1].pop * 100}}% / {{diario.daily[1].humidity}}%</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Dia 6</th>
-                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.daily[6].temp.day}}</td>
-                                    <!-- <td>tabular</td>
-                                    <td>information</td>
-                                    <td>irrelevant</td> -->
+                                    <th scope="col ">Dirección y Velocidad del Viento</th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{windDirection(diario.daily[1].wind_deg)}} {{diario.daily[1].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************DIA2*************** -->
+                                <tr>
+                                    <th :colspan="selectedItems.dataArr.length + 1" class="text-center">{{proximosDias[2]}}</th>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Dia 7</th>
-                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.daily[7].temp.day}}</td>
-                                    <!-- <td>data</td>
-                                    <td>placeholder</td>
-                                    <td>text</td> -->
+                                    <th scope="col ">Max / Min</th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.daily[2].temp.max}} / {{diario.daily[2].temp.min}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad</th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.daily[2].pop * 100}}% / {{diario.daily[2].humidity}}%</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col ">Dirección y Velocidad del Viento</th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{windDirection(diario.daily[2].wind_deg)}} {{diario.daily[2].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************DIA3*************** -->
+                                <tr>
+                                    <th :colspan="selectedItems.dataArr.length + 1" class="text-center">{{proximosDias[3]}}</th>
+                                </tr>
+                                <tr>
+                                    <th scope="col ">Max / Min</th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.daily[3].temp.max}} / {{diario.daily[3].temp.min}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad</th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.daily[3].pop * 100}}% / {{diario.daily[3].humidity}}%</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col ">Dirección y Velocidad del Viento</th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{windDirection(diario.daily[3].wind_deg)}} {{diario.daily[3].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************DIA4*************** -->
+                                <tr>
+                                    <th :colspan="selectedItems.dataArr.length + 1" class="text-center">{{proximosDias[4]}}</th>
+                                </tr>
+                                <tr>
+                                    <th scope="col ">Max / Min</th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.daily[4].temp.max}} / {{diario.daily[4].temp.min}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad</th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.daily[4].pop * 100}}% / {{diario.daily[4].humidity}}%</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col ">Dirección y Velocidad del Viento</th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{windDirection(diario.daily[4].wind_deg)}} {{diario.daily[4].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************DIA5*************** -->
+                                <tr>
+                                    <th :colspan="selectedItems.dataArr.length + 1" class="text-center">{{proximosDias[5]}}</th>
+                                </tr>
+                                <tr>
+                                    <th scope="col ">Max / Min</th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.daily[5].temp.max}} / {{diario.daily[5].temp.min}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad</th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.daily[5].pop * 100}}% / {{diario.daily[5].humidity}}%</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col ">Dirección y Velocidad del Viento</th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{windDirection(diario.daily[5].wind_deg)}} {{diario.daily[5].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************DIA6*************** -->
+                                <tr>
+                                    <th :colspan="selectedItems.dataArr.length + 1" class="text-center">{{proximosDias[6]}}</th>
+                                </tr>
+                                <tr>
+                                    <th scope="col ">Max / Min</th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.daily[6].temp.max}} / {{diario.daily[6].temp.min}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad</th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.daily[6].pop * 100}}% / {{diario.daily[6].humidity}}%</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col ">Dirección y Velocidad del Viento</th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{windDirection(diario.daily[6].wind_deg)}} {{diario.daily[6].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************DIA7*************** -->
+                                <tr>
+                                    <th :colspan="selectedItems.dataArr.length + 1" class="text-center">{{proximosDias[7]}}</th>
+                                </tr>
+                                <tr>
+                                    <th scope="col ">Max / Min</th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.daily[7].temp.max}} / {{diario.daily[7].temp.min}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad</th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.daily[7].pop * 100}}% / {{diario.daily[7].humidity}}%</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col ">Dirección y Velocidad del Viento</th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{windDirection(diario.daily[7].wind_deg)}} {{diario.daily[7].wind_speed}}</td>
+                                </tr>
+                                <tr>
+                                    <th :colspan="selectedItems.dataArr.length + 1" class="text-center">Pronóstico Hora a Hora (48hrs) [Temp / PoP / Viento]</th>
+                                </tr>
+                                <!-- ***************1HR*************** -->
+                                <tr>
+                                    <th scope="col ">1 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[0].temp}} / {{diario.hourly[0].pop * 100}}% / {{windDirection(diario.hourly[0].wind_deg)}} {{diario.hourly[0].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************2HR*************** -->
+                                <tr>
+                                    <th scope="col ">2 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[1].temp}} / {{diario.hourly[1].pop * 100}}% / {{windDirection(diario.hourly[1].wind_deg)}} {{diario.hourly[1].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************3HR*************** -->
+                                <tr>
+                                    <th scope="col ">3 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[2].temp}} / {{diario.hourly[2].pop * 100}}% / {{windDirection(diario.hourly[2].wind_deg)}} {{diario.hourly[2].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************4HR*************** -->
+                                <tr>
+                                    <th scope="col ">4 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[3].temp}} / {{diario.hourly[3].pop * 100}}% / {{windDirection(diario.hourly[3].wind_deg)}} {{diario.hourly[3].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************5HR*************** -->
+                                <tr>
+                                    <th scope="col ">5 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[4].temp}} / {{diario.hourly[4].pop * 100}}% / {{windDirection(diario.hourly[4].wind_deg)}} {{diario.hourly[4].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************6HR*************** -->
+                                <tr>
+                                    <th scope="col ">6 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[5].temp}} / {{diario.hourly[5].pop * 100}}% / {{windDirection(diario.hourly[5].wind_deg)}} {{diario.hourly[5].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************7HR*************** -->
+                                <tr>
+                                    <th scope="col ">7 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[6].temp}} / {{diario.hourly[6].pop * 100}}% / {{windDirection(diario.hourly[6].wind_deg)}} {{diario.hourly[6].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************8HR*************** -->
+                                <tr>
+                                    <th scope="col ">8 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[7].temp}} / {{diario.hourly[7].pop * 100}}% / {{windDirection(diario.hourly[7].wind_deg)}} {{diario.hourly[7].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************9HR*************** -->
+                                <tr>
+                                    <th scope="col ">9 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[8].temp}} / {{diario.hourly[8].pop * 100}}% / {{windDirection(diario.hourly[8].wind_deg)}} {{diario.hourly[8].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************10HR*************** -->
+                                <tr>
+                                    <th scope="col ">10 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[9].temp}} / {{diario.hourly[9].pop * 100}}% / {{windDirection(diario.hourly[9].wind_deg)}} {{diario.hourly[9].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************11HR*************** -->
+                                <tr>
+                                    <th scope="col ">11 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[10].temp}} / {{diario.hourly[10].pop * 100}}% / {{windDirection(diario.hourly[10].wind_deg)}} {{diario.hourly[10].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************12HR*************** -->
+                                <tr>
+                                    <th scope="col ">12 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[11].temp}} / {{diario.hourly[11].pop * 100}}% / {{windDirection(diario.hourly[11].wind_deg)}} {{diario.hourly[11].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************13HR*************** -->
+                                <tr>
+                                    <th scope="col ">13 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[12].temp}} / {{diario.hourly[12].pop * 100}}% / {{windDirection(diario.hourly[12].wind_deg)}} {{diario.hourly[12].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************14HR*************** -->
+                                <tr>
+                                    <th scope="col ">14 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[13].temp}} / {{diario.hourly[13].pop * 100}}% / {{windDirection(diario.hourly[13].wind_deg)}} {{diario.hourly[13].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************15HR*************** -->
+                                <tr>
+                                    <th scope="col ">15 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[14].temp}} / {{diario.hourly[14].pop * 100}}% / {{windDirection(diario.hourly[14].wind_deg)}} {{diario.hourly[14].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************16HR*************** -->
+                                <tr>
+                                    <th scope="col ">16 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[15].temp}} / {{diario.hourly[15].pop * 100}}% / {{windDirection(diario.hourly[15].wind_deg)}} {{diario.hourly[15].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************17HR*************** -->
+                                <tr>
+                                    <th scope="col ">17 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[16].temp}} / {{diario.hourly[16].pop * 100}}% / {{windDirection(diario.hourly[16].wind_deg)}} {{diario.hourly[16].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************18HR*************** -->
+                                <tr>
+                                    <th scope="col ">18 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[17].temp}} / {{diario.hourly[17].pop * 100}}% / {{windDirection(diario.hourly[17].wind_deg)}} {{diario.hourly[17].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************19HR*************** -->
+                                <tr>
+                                    <th scope="col ">19 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[18].temp}} / {{diario.hourly[18].pop * 100}}% / {{windDirection(diario.hourly[18].wind_deg)}} {{diario.hourly[18].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************20HR*************** -->
+                                <tr>
+                                    <th scope="col ">20 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[19].temp}} / {{diario.hourly[19].pop * 100}}% / {{windDirection(diario.hourly[19].wind_deg)}} {{diario.hourly[19].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************21HR*************** -->
+                                <tr>
+                                    <th scope="col ">21 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[20].temp}} / {{diario.hourly[20].pop * 100}}% / {{windDirection(diario.hourly[20].wind_deg)}} {{diario.hourly[20].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************22HR*************** -->
+                                <tr>
+                                    <th scope="col ">22 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[21].temp}} / {{diario.hourly[21].pop * 100}}% / {{windDirection(diario.hourly[21].wind_deg)}} {{diario.hourly[21].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************23HR*************** -->
+                                <tr>
+                                    <th scope="col ">23 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[22].temp}} / {{diario.hourly[22].pop * 100}}% / {{windDirection(diario.hourly[22].wind_deg)}} {{diario.hourly[22].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************24HR*************** -->
+                                <tr>
+                                    <th scope="col ">24 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[23].temp}} / {{diario.hourly[23].pop * 100}}% / {{windDirection(diario.hourly[23].wind_deg)}} {{diario.hourly[23].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************25HR*************** -->
+                                <tr>
+                                    <th scope="col ">25 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[24].temp}} / {{diario.hourly[24].pop * 100}}% / {{windDirection(diario.hourly[24].wind_deg)}} {{diario.hourly[24].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************26HR*************** -->
+                                <tr>
+                                    <th scope="col ">26 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[25].temp}} / {{diario.hourly[25].pop * 100}}% / {{windDirection(diario.hourly[25].wind_deg)}} {{diario.hourly[25].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************27HR*************** -->
+                                <tr>
+                                    <th scope="col ">27 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[26].temp}} / {{diario.hourly[26].pop * 100}}% / {{windDirection(diario.hourly[26].wind_deg)}} {{diario.hourly[26].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************28HR*************** -->
+                                <tr>
+                                    <th scope="col ">28 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[27].temp}} / {{diario.hourly[27].pop * 100}}% / {{windDirection(diario.hourly[27].wind_deg)}} {{diario.hourly[27].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************29HR*************** -->
+                                <tr>
+                                    <th scope="col ">29 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[28].temp}} / {{diario.hourly[28].pop * 100}}% / {{windDirection(diario.hourly[28].wind_deg)}} {{diario.hourly[28].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************30HR*************** -->
+                                <tr>
+                                    <th scope="col ">30 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[29].temp}} / {{diario.hourly[29].pop * 100}}% / {{windDirection(diario.hourly[29].wind_deg)}} {{diario.hourly[29].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************31HR*************** -->
+                                <tr>
+                                    <th scope="col ">31 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[30].temp}} / {{diario.hourly[30].pop * 100}}% / {{windDirection(diario.hourly[30].wind_deg)}} {{diario.hourly[30].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************32HR*************** -->
+                                <tr>
+                                    <th scope="col ">32 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[31].temp}} / {{diario.hourly[31].pop * 100}}% / {{windDirection(diario.hourly[31].wind_deg)}} {{diario.hourly[31].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************32HR*************** -->
+                                <tr>
+                                    <th scope="col ">32 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[32].temp}} / {{diario.hourly[32].pop * 100}}% / {{windDirection(diario.hourly[32].wind_deg)}} {{diario.hourly[32].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************34HR*************** -->
+                                <tr>
+                                    <th scope="col ">34 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[33].temp}} / {{diario.hourly[33].pop * 100}}% / {{windDirection(diario.hourly[33].wind_deg)}} {{diario.hourly[33].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************35HR*************** -->
+                                <tr>
+                                    <th scope="col ">35 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[34].temp}} / {{diario.hourly[34].pop * 100}}% / {{windDirection(diario.hourly[34].wind_deg)}} {{diario.hourly[34].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************36HR*************** -->
+                                <tr>
+                                    <th scope="col ">36 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[35].temp}} / {{diario.hourly[35].pop * 100}}% / {{windDirection(diario.hourly[35].wind_deg)}} {{diario.hourly[35].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************37HR*************** -->
+                                <tr>
+                                    <th scope="col ">37 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[36].temp}} / {{diario.hourly[36].pop * 100}}% / {{windDirection(diario.hourly[36].wind_deg)}} {{diario.hourly[36].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************38HR*************** -->
+                                <tr>
+                                    <th scope="col ">38 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[37].temp}} / {{diario.hourly[37].pop * 100}}% / {{windDirection(diario.hourly[37].wind_deg)}} {{diario.hourly[37].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************39HR*************** -->
+                                <tr>
+                                    <th scope="col ">39 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[38].temp}} / {{diario.hourly[38].pop * 100}}% / {{windDirection(diario.hourly[38].wind_deg)}} {{diario.hourly[38].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************40HR*************** -->
+                                <tr>
+                                    <th scope="col ">40 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[39].temp}} / {{diario.hourly[39].pop * 100}}% / {{windDirection(diario.hourly[39].wind_deg)}} {{diario.hourly[39].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************41HR*************** -->
+                                <tr>
+                                    <th scope="col ">41 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[40].temp}} / {{diario.hourly[40].pop * 100}}% / {{windDirection(diario.hourly[40].wind_deg)}} {{diario.hourly[40].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************42HR*************** -->
+                                <tr>
+                                    <th scope="col ">42 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[41].temp}} / {{diario.hourly[41].pop * 100}}% / {{windDirection(diario.hourly[41].wind_deg)}} {{diario.hourly[41].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************43HR*************** -->
+                                <tr>
+                                    <th scope="col ">43 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[42].temp}} / {{diario.hourly[42].pop * 100}}% / {{windDirection(diario.hourly[42].wind_deg)}} {{diario.hourly[42].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************44HR*************** -->
+                                <tr>
+                                    <th scope="col ">44 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[43].temp}} / {{diario.hourly[43].pop * 100}}% / {{windDirection(diario.hourly[43].wind_deg)}} {{diario.hourly[43].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************45HR*************** -->
+                                <tr>
+                                    <th scope="col ">45 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[44].temp}} / {{diario.hourly[44].pop * 100}}% / {{windDirection(diario.hourly[44].wind_deg)}} {{diario.hourly[44].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************46HR*************** -->
+                                <tr>
+                                    <th scope="col ">46 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[45].temp}} / {{diario.hourly[45].pop * 100}}% / {{windDirection(diario.hourly[45].wind_deg)}} {{diario.hourly[45].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************47HR*************** -->
+                                <tr>
+                                    <th scope="col ">47 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[46].temp}} / {{diario.hourly[46].pop * 100}}% / {{windDirection(diario.hourly[46].wind_deg)}} {{diario.hourly[46].wind_speed}}</td>
+                                </tr>
+                                <!-- ***************48HR*************** -->
+                                <tr>
+                                    <th scope="col ">48 Hr </th>
+                                    <td v-for="(diario, index) in selectedItems.dataArr" :key="index">{{diario.hourly[47].temp}} / {{diario.hourly[47].pop * 100}}% / {{windDirection(diario.hourly[47].wind_deg)}} {{diario.hourly[47].wind_speed}}</td>
                                 </tr>
                             </tbody>
                         </table>
