@@ -172,12 +172,12 @@ const currentMultipleChart = (selectedItems) => {
             }
             if (i == 2) {
                 myChart.data.datasets[i].backgroundColor.push('rgba(75, 192, 192, 0.5)');
-                myChart.data.datasets[i].label = "Min";
+                myChart.data.datasets[i].label = "Max";
                 myChart.data.datasets[i].data.push(selectedItems.dataArr[j].daily[0].temp.max)
             }
             if (i == 3) {
                 myChart.data.datasets[i].backgroundColor.push('rgba(54, 162, 235, 0.5)');
-                myChart.data.datasets[i].label = "Max";
+                myChart.data.datasets[i].label = "Min";
                 myChart.data.datasets[i].data.push(selectedItems.dataArr[j].daily[0].temp.min)
             }
         }

@@ -6,7 +6,7 @@ import 'regenerator-runtime/runtime'; // async await functions
 // Development
 import allMexico from "./locations.js";
 import { getCompleteWeatherData } from "./api-functions.js";
-import { getMyChart, indexToColor, getProximosDias, getWindDirectionLabel } from "./chart-controller.js";
+import { getMyChart, indexToColor, getProximosDias, getWindDirectionLabel } from "./aux-functions.js";
 
 const App = new Vue({
     el: '#app',
