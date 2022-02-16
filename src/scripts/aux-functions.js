@@ -1,27 +1,27 @@
-const getMyChart = (selectedItems, mode) => {
+const getMyChart = (itemsArr, mode) => {
     switch (mode) {
         case 0:
-            return currentChart(selectedItems);
+            return currentChart(itemsArr);
         case 1:
-            return dailyForecastChart(selectedItems);
+            return dailyForecastChart(itemsArr);
         case 2:
-            return hourlyForecastChart(selectedItems);
+            return hourlyForecastChart(itemsArr);
         case 3:
-            return currentMultipleChart(selectedItems);
+            return currentMultipleChart(itemsArr);
         default:
-            return currentChart(selectedItems);
+            return currentChart(itemsArr);
     }
 }
 
-const currentChart = (selectedItems) => {
+const currentChart = (itemsArr) => {
     let xValues = [];
     let yValues = [];
     let barColors = [];
-    for (let i = 0; i < selectedItems.dataArr.length; i++) {
-        if (selectedItems.dataArr[i] == undefined) continue;
-        xValues.push(selectedItems.namesPathArr[i][0] + " " + selectedItems.namesPathArr[i][1])
-        yValues.push(selectedItems.dataArr[i].current.temp)
-        barColors.push(indexToColor(i))
+    for (let i = 0; i < itemsArr.length; i++) {
+        if (itemsArr[i].data == undefined) continue;
+        xValues.push(itemsArr[i].namesPathArr[0] + " " + itemsArr[i].namesPathArr[1])
+        yValues.push(itemsArr[i].data.current.temp)
+        barColors.push(indexToColor(itemsArr[i].selectedItemsIndex))
     }
     let chartOptions = {
         plugins: {
@@ -48,8 +48,10 @@ const currentChart = (selectedItems) => {
     };
 }
 
-const dailyForecastChart = (selectedItems) => {
-    let xValues = ["Hoy", getProximosDias(1), getProximosDias(2), getProximosDias(3), getProximosDias(4), getProximosDias(5), getProximosDias(6), getProximosDias(7)];
+const dailyForecastChart = (itemsArr) => {
+    let xValues = ["Hoy", getProximosDias(1), getProximosDias(2), getProximosDias(3),
+        getProximosDias(4), getProximosDias(5), getProximosDias(6), getProximosDias(7)
+    ];
 
     let chartOptions = {
         plugins: {
@@ -70,21 +72,22 @@ const dailyForecastChart = (selectedItems) => {
         },
         options: chartOptions
     }
-    for (let i = 0; i < selectedItems.dataArr.length; i++) {
+    for (let i = 0; i < itemsArr.length; i++) {
         myChart.data.datasets.push({
-            borderColor: indexToColor(i),
-            label: selectedItems.namesPathArr[i][0] + " " + selectedItems.namesPathArr[i][1],
+            borderColor: indexToColor(itemsArr[i].selectedItemsIndex),
+            backgroundColor: "whitesmoke",
+            label: itemsArr[i].namesPathArr[0] + " " + itemsArr[i].namesPathArr[1],
             data: []
         })
-        if (selectedItems.dataArr[i] == undefined) continue;
-        for (let j = 0; j < selectedItems.dataArr[i].daily.length; j++) {
-            myChart.data.datasets[i].data.push(selectedItems.dataArr[i].daily[j].temp.day)
+        if (itemsArr[i].data == undefined) continue;
+        for (let j = 0; j < itemsArr[i].data.daily.length; j++) {
+            myChart.data.datasets[i].data.push(itemsArr[i].data.daily[j].temp.day)
         }
     }
     return myChart;
 }
 
-const hourlyForecastChart = (selectedItems) => {
+const hourlyForecastChart = (itemsArr) => {
     let xValues = []
     for (let i = 0; i < 48; i++) xValues.push((i + 1) + "Hr")
 
@@ -107,28 +110,29 @@ const hourlyForecastChart = (selectedItems) => {
         },
         options: chartOptions
     }
-    for (let i = 0; i < selectedItems.dataArr.length; i++) {
+    for (let i = 0; i < itemsArr.length; i++) {
         myChart.data.datasets.push({
-            borderColor: indexToColor(i),
-            label: selectedItems.namesPathArr[i][0] + " " + selectedItems.namesPathArr[i][1],
+            borderColor: indexToColor(itemsArr[i].selectedItemsIndex),
+            backgroundColor: "whitesmoke",
+            label: itemsArr[i].namesPathArr[0] + " " + itemsArr[i].namesPathArr[1],
             data: []
         })
-        if (selectedItems.dataArr[i] == undefined) continue;
-        for (let j = 0; j < selectedItems.dataArr[i].hourly.length; j++) {
-            myChart.data.datasets[i].data.push(selectedItems.dataArr[i].hourly[j].temp)
+        if (itemsArr[i].data == undefined) continue;
+        for (let j = 0; j < itemsArr[i].data.hourly.length; j++) {
+            myChart.data.datasets[i].data.push(itemsArr[i].data.hourly[j].temp)
         }
     }
     return myChart;
 }
 
-const currentMultipleChart = (selectedItems) => {
+const currentMultipleChart = (itemsArr) => {
     let xValues = [];
 
     let barColors = [];
-    for (let i = 0; i < selectedItems.dataArr.length; i++) {
-        if (selectedItems.dataArr[i] == undefined) continue;
-        xValues.push(selectedItems.namesPathArr[i][0] + " " + selectedItems.namesPathArr[i][1])
-            //barColors.push(indexToColor(i))
+    for (let i = 0; i < itemsArr.length; i++) {
+        if (itemsArr[i].data == undefined) continue;
+        xValues.push(itemsArr[i].namesPathArr[0] + " " + itemsArr[i].namesPathArr[1])
+            //barColors.push(indexToColor(itemsArr[i].selectedItemsIndex))
     }
 
     let chartOptions = {
@@ -158,31 +162,31 @@ const currentMultipleChart = (selectedItems) => {
             label: "",
             data: []
         })
-        for (let j = 0; j < selectedItems.dataArr.length; j++) {
-            //myChart.data.datasets[i].backgroundColor.push(indexToColor(j));
+        for (let j = 0; j < itemsArr.length; j++) {
+            //myChart.data.datasets[i].backgroundColor.push(indexToColor(itemsArr[i].selectedItemsIndex));
             if (i == 0) {
-                myChart.data.datasets[i].backgroundColor.push('rgba(255, 159, 64, 0.5)');
+                myChart.data.datasets[i].backgroundColor.push('rgba(75, 192, 192, 0.5)');
                 myChart.data.datasets[i].label = "Ahora";
-                myChart.data.datasets[i].data.push(selectedItems.dataArr[j].current.temp)
+                myChart.data.datasets[i].data.push(itemsArr[j].data.current.temp)
             }
             if (i == 1) {
-                myChart.data.datasets[i].backgroundColor.push('rgba(255, 205, 86, 0.5)');
+                myChart.data.datasets[i].backgroundColor.push('rgba(255, 205, 86, 0.2)');
                 myChart.data.datasets[i].label = "S.T.";
-                myChart.data.datasets[i].data.push(selectedItems.dataArr[j].current.feels_like)
+                myChart.data.datasets[i].data.push(itemsArr[j].data.current.feels_like)
             }
-            if (i == 2) {
-                myChart.data.datasets[i].backgroundColor.push('rgba(75, 192, 192, 0.5)');
+            if (i == 2) { //rgba(75, 192, 192, 0.5)
+                myChart.data.datasets[i].backgroundColor.push('rgba(255, 159, 64, 0.5)');
                 myChart.data.datasets[i].label = "Max";
-                myChart.data.datasets[i].data.push(selectedItems.dataArr[j].daily[0].temp.max)
+                myChart.data.datasets[i].data.push(itemsArr[j].data.daily[0].temp.max)
             }
             if (i == 3) {
                 myChart.data.datasets[i].backgroundColor.push('rgba(54, 162, 235, 0.5)');
                 myChart.data.datasets[i].label = "Min";
-                myChart.data.datasets[i].data.push(selectedItems.dataArr[j].daily[0].temp.min)
+                myChart.data.datasets[i].data.push(itemsArr[j].data.daily[0].temp.min)
             }
         }
     }
-    console.log("myChart", myChart)
+    //console.log("myChart", myChart)
     return myChart;
 }
 
