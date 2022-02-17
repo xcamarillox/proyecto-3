@@ -6,12 +6,19 @@ import 'regenerator-runtime/runtime'; // async await functions
 // Development
 import allMexico from "./locations.js";
 import { getCompleteWeatherData } from "./api-functions.js";
-import { getMyChart, indexToColor, getProximosDias, getWindDirectionLabel } from "./aux-functions.js";
+import {
+    getMyChart,
+    indexToColor,
+    getNextDaysLabels,
+    getPlaceNameLabel,
+    getWindDirectionLabel
+} from "./aux-functions.js";
 
 const App = new Vue({
     el: '#app',
     data: () => ({
-        proximosDias: getProximosDias(-1, 9),
+        proximosDias: getNextDaysLabels(-1, 9),
+        etiquetasLugares: getPlaceNameLabel,
         myChart: null,
         modalData: {},
         selectListData: {},
@@ -22,7 +29,7 @@ const App = new Vue({
             //coord: "40.73,-73.93"
             //namesPathArr: [],
             //data: [],
-            //status: ""
+            //status: "pending"
             //}
         ],
         itemsToShow: [],
@@ -94,16 +101,13 @@ const App = new Vue({
             if (this.modalData.radioValue == 1) {
                 cacheArr.push(allMexico[this.selectListData.indexPath[0]].name);
                 cacheArr.push(allMexico[this.selectListData.indexPath[0]].cities[this.selectListData.indexPath[1]].name);
-                //this.selectedItems.selectedArr.splice(this.modalData.itemIndex, 1, [this.modalData.radioValue, allMexico[this.selectListData.indexPath[0]].cities[this.selectListData.indexPath[1]].coordinates]);
                 selectedItem.coord = allMexico[this.selectListData.indexPath[0]].cities[this.selectListData.indexPath[1]].coordinates;
             } else if (this.modalData.radioValue == 2) {
-                cacheArr.push(this.inputsData.alias);
-                cacheArr.push(this.inputsData.coord);
-                //this.selectedItems.selectedArr.splice(this.modalData.itemIndex, 1, [this.modalData.radioValue, this.inputsData.coord]);
+                cacheArr.push(this.inputsData.alias.trim());
+                cacheArr.push(this.inputsData.coord.trim());
                 selectedItem.coord = this.inputsData.coord;
             }
             selectedItem.selectedOp = this.modalData.radioValue;
-            //this.selectedItems.namesPathArr.splice(this.modalData.itemIndex, 1, cacheArr);
             selectedItem.namesPathArr = cacheArr;
             this.selectedItems.splice(this.modalData.itemIndex, 1, selectedItem);
             this.updateWeatherData(this.modalData.itemIndex, "metric");
@@ -146,10 +150,6 @@ const App = new Vue({
             this.selectListData.cityToggle = !this.selectListData.cityToggle
         },
         deleteItem(index) {
-            //this.selectedItems.selectedArr.splice(index, 1);
-            //this.selectedItems.namesPathArr.splice(index, 1);
-            //this.selectedItems.dataArr.splice(index, 1);
-            //this.selectedItems.statusArr.splice(index, 1);
             this.selectedItems.splice(index, 1);
             this.updateChartData(true);
         },
@@ -159,26 +159,13 @@ const App = new Vue({
             let expression;
             if (direction == "up") expression = index - 1;
             else expression = index + 1;
-            //let cacheIndex = this.copyObj(this.selectedItems.selectedArr[index])
-            //let cacheName = this.copyObj(this.selectedItems.namesPathArr[index])
-            //let cacheData = this.copyObj(this.selectedItems.dataArr[index])
-            //let cacheStatus = this.copyObj(this.selectedItems.statusArr[index])
             let cache = this.copyObj(this.selectedItems[index])
-                //this.selectedItems.selectedArr.splice(index, 1, this.copyObj(this.selectedItems.selectedArr[expression]));
-                //this.selectedItems.namesPathArr.splice(index, 1, this.copyObj(this.selectedItems.namesPathArr[expression]));
-                //this.selectedItems.dataArr.splice(index, 1, this.copyObj(this.selectedItems.dataArr[expression]));
-                //this.selectedItems.statusArr.splice(index, 1, this.copyObj(this.selectedItems.statusArr[expression]));
             this.selectedItems.splice(index, 1, this.copyObj(this.selectedItems[expression]));
-            //this.selectedItems.selectedArr.splice(expression, 1, cacheIndex);
-            //this.selectedItems.namesPathArr.splice(expression, 1, cacheName);
-            //this.selectedItems.dataArr.splice(expression, 1, cacheData);
-            //this.selectedItems.statusArr.splice(expression, 1, cacheStatus);
             this.selectedItems.splice(expression, 1, cache);
             this.updateChartData(true);
         },
         editItem(index) {
             this.initModal(2);
-            //const op1Selected = this.selectedItems.selectedArr[index][0] == 1;
             const op1Selected = this.selectedItems[index].selectedOp == 1;
             this.inputsData.coord = op1Selected ? "" : this.selectedItems[index].namesPathArr[1]
             this.inputsData.alias = op1Selected ? "" : this.selectedItems[index].namesPathArr[0]
@@ -205,20 +192,16 @@ const App = new Vue({
             console.log("getWeather", await getCompleteWeatherData(this.selectedItems, -1, "metric"))
         },
         async updateWeatherData(wantedIndex, wantedUnits) {
-            if (wantedIndex == -1 || this.selectedItems[wantedIndex] == undefined)
-            //for (let i = 0; i < this.selectedItems.statusArr.length; i++) this.selectedItems.statusArr.splice(i, 1, "PENDING");
-            {
+            console.log("updateWeatherData", this.selectedItems)
+            if (wantedIndex < 0 || this.selectedItems[wantedIndex] == undefined) {
                 for (let i = 0; i < this.selectedItems.length; i++) this.selectedItems[i].status = "PENDING";
                 this.itemsToShow = [];
-            } else //this.selectedItems.statusArr.splice(wantedIndex, 1, "PENDING");
-                this.selectedItems[wantedIndex].status = "PENDING";
+            } else this.selectedItems[wantedIndex].status = "PENDING";
             let weatherData = await getCompleteWeatherData(this.selectedItems, wantedIndex, wantedUnits);
-            //let weatherData = { dataArray: [undefined], isReturnAllMode: false };
-            let isOneItem = weatherData.dataArray.length == 1;
+            console.log("updateWeatherData", weatherData)
+            let isOneItem = !weatherData.isReturnAllMode;
             for (let i = 0; i < weatherData.dataArray.length; i++) {
                 if (weatherData.dataArray[i] != undefined) {
-                    //this.selectedItems.statusArr.splice(isOneItem ? wantedIndex : i, 1, "READY");
-                    //this.selectedItems.dataArr.splice(isOneItem ? wantedIndex : i, 1, weatherData.dataArray[i]);
                     this.selectedItems[isOneItem ? wantedIndex : i].status = "READY";
                     this.selectedItems[isOneItem ? wantedIndex : i].data = weatherData.dataArray[i];
                     if (this.modalData.title != "Edita la ubicación") {
@@ -226,13 +209,10 @@ const App = new Vue({
                         this.itemsToShow[this.itemsToShow.length - 1].selectedItemsIndex = isOneItem ? wantedIndex : i;
                     }
                 } else {
-                    //this.selectedItems.statusArr.splice(isOneItem ? wantedIndex : i, 1, "FAILED");
-                    //this.selectedItems.dataArr.splice(isOneItem ? wantedIndex : i, 1, undefined);
                     this.selectedItems[isOneItem ? wantedIndex : i].status = "FAILED";
                     this.selectedItems[isOneItem ? wantedIndex : i].data = undefined;
                 }
             }
-            //for (let i = 0; i < this.selectedItems.selectedArr.length; i++) console.log(i, this.selectedItems.dataArr[i].current.temp, this.selectedItems.selectedArr[i], this.selectedItems.namesPathArr[i], this.selectedItems.statusArr[i])
             //for (let i = 0; i < this.selectedItems.length; i++) console.log(i, this.selectedItems[i].data.current.temp, this.selectedItems[i], this.selectedItems[i].namesPathArr, this.selectedItems[i].status)
             //console.log("_______________________")
             if (this.modalData.title == "Edita la ubicación") this.updateChartData(true)
@@ -252,7 +232,7 @@ const App = new Vue({
                 };
             };
             if (this.myChart != null) this.myChart.destroy();
-            this.myChart = new Chart('myChart', getMyChart(this.itemsToShow, 1));
+            this.myChart = new Chart('myChart', getMyChart(this.itemsToShow, 4));
         },
     },
     watch: {},

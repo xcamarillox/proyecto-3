@@ -34,8 +34,8 @@
                     <div class="position-sticky pt-3">
                         <ul class="nav flex-column">
                             <li class="nav-item" v-for="(item, index) in selectedItems" :key="index">
-                                <div>{{index + 1}}.- <i class="fa-solid fa-circle" :style="itemColorStyleFunc(index)"></i> {{item.namesPathArr[0].length == 0 ? item.namesPathArr[1]: item.namesPathArr[0] + " >"}}</div>
-                                <span v-if="item.namesPathArr[0].length>0">{{item.namesPathArr[1]}}</span><span class="status" v-if="item.status!='READY'"> [{{item.status}}]</span>
+                                <div>{{index + 1}}.- <i class="fa-solid fa-circle" :style="itemColorStyleFunc(index)"></i> {{etiquetasLugares(selectedItems, index)}}</div>
+                                <span class="status" v-if="item.status!='READY'"> [{{item.status}}]</span>
                                 <div class="icons">
                                     <a class="text-secondary" @click="deleteItem(index)"><i class="fa-regular fa-circle-xmark fa-lg"></i></a>
                                     <a class="text-secondary" @click="moveItem(index, 'up')"><i class="fa-regular fa-circle-up fa-lg"></i></a>
@@ -51,7 +51,7 @@
                 <!-- ********************** main ********************** -->
                 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 ">
                     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom ">
-                        <h1 class="h2 ">Dashboard</h1>
+                        <h1 class="h2 ">Hoy</h1>
                         <div class="btn-toolbar mb-2 mb-md-0 ">
                             <div class="btn-group me-2 ">
                                 <button type="button" class="btn btn-sm btn-outline-secondary" @click="getWeather">Hoy</button>
@@ -61,20 +61,20 @@
                         </div>
                     </div>
 
-                    <div>
-
+                    <div class="grafica" v-show="itemsToShow.length > 0">
+                        <h2 class="border-bottom">Gráfica</h2>
+                        <canvas class="my-4 w-100 " id="myChart" width="900 " height="380 "></canvas>
                     </div>
-                    <h2 class="border-bottom">Chart</h2>
-                    <canvas class="my-4 w-100 " id="myChart" width="900 " height="380 "></canvas>
 
-                    <h2>Tabla</h2>
-                    <div class="table-responsive ">
+                    <div class="table-responsive " v-if="itemsToShow.length > 0">
                         <table class="table table-striped table-sm ">
                             <thead>
                                 <tr>
-                                    <th scope="col "> </th>
+                                    <th scope="col ">
+                                        <h2>Tabulador</h2>
+                                    </th>
                                     <th v-for="(item, index) in itemsToShow" :key="index">
-                                        <i class="fa-solid fa-circle" :style="itemColorStyleFunc(itemsToShow[index].selectedItemsIndex)"></i> {{item.namesPathArr[0].length == 0 ? item.namesPathArr[1] : item.namesPathArr[0] + ' > ' + item.namesPathArr[1]}}
+                                        <i class="fa-solid fa-circle" :style="itemColorStyleFunc(itemsToShow[index].selectedItemsIndex)"></i> {{etiquetasLugares(itemsToShow, index)}}
                                     </th>
                                 </tr>
                             </thead>
@@ -88,7 +88,7 @@
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.current.temp}}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Sensación Térmica</th>
+                                    <th scope="col ">Sensación Térmica (S.T.)</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.current.feels_like}}</td>
                                 </tr>
                                 <tr>

@@ -1,26 +1,37 @@
 const getMyChart = (itemsArr, mode) => {
     switch (mode) {
         case 0:
-            return currentChart(itemsArr);
+            return barChartSingleDataset(itemsArr, ["current", "temp"]);
         case 1:
             return dailyForecastChart(itemsArr);
         case 2:
             return hourlyForecastChart(itemsArr);
         case 3:
-            return currentMultipleChart(itemsArr);
+            return barChartMultipleDataset(itemsArr, [
+                ["current", "temp"]
+            ], ["dataSetLabel"]);
+        case 4:
+            return barChartMultipleDataset(itemsArr, [
+                ["current", "temp"],
+                ["current", "feels_like"],
+                ["daily", 0, "temp", "max"],
+                ["daily", 0, "temp", "min"],
+            ], ["Hoy", "S.T.", "Max", "Min"]);
         default:
             return currentChart(itemsArr);
     }
 }
 
-const currentChart = (itemsArr) => {
+const barChartSingleDataset = (itemsArr, pathArr) => {
     let xValues = [];
     let yValues = [];
     let barColors = [];
+    let itemsSingleDataValue;
     for (let i = 0; i < itemsArr.length; i++) {
-        if (itemsArr[i].data == undefined) continue;
-        xValues.push(itemsArr[i].namesPathArr[0] + " " + itemsArr[i].namesPathArr[1])
-        yValues.push(itemsArr[i].data.current.temp)
+        itemsSingleDataValue = itemsArr[i].data;
+        for (let j = 0; j < pathArr.length; j++) itemsSingleDataValue = itemsSingleDataValue[pathArr[j]];
+        xValues.push(getPlaceNameLabel(itemsArr, i))
+        yValues.push(itemsSingleDataValue) //.current.temp
         barColors.push(indexToColor(itemsArr[i].selectedItemsIndex))
     }
     let chartOptions = {
@@ -49,8 +60,8 @@ const currentChart = (itemsArr) => {
 }
 
 const dailyForecastChart = (itemsArr) => {
-    let xValues = ["Hoy", getProximosDias(1), getProximosDias(2), getProximosDias(3),
-        getProximosDias(4), getProximosDias(5), getProximosDias(6), getProximosDias(7)
+    let xValues = ["Hoy", getNextDaysLabels(1), getNextDaysLabels(2), getNextDaysLabels(3),
+        getNextDaysLabels(4), getNextDaysLabels(5), getNextDaysLabels(6), getNextDaysLabels(7)
     ];
 
     let chartOptions = {
@@ -76,7 +87,7 @@ const dailyForecastChart = (itemsArr) => {
         myChart.data.datasets.push({
             borderColor: indexToColor(itemsArr[i].selectedItemsIndex),
             backgroundColor: "whitesmoke",
-            label: itemsArr[i].namesPathArr[0] + " " + itemsArr[i].namesPathArr[1],
+            label: getPlaceNameLabel(itemsArr, i),
             data: []
         })
         if (itemsArr[i].data == undefined) continue;
@@ -114,7 +125,7 @@ const hourlyForecastChart = (itemsArr) => {
         myChart.data.datasets.push({
             borderColor: indexToColor(itemsArr[i].selectedItemsIndex),
             backgroundColor: "whitesmoke",
-            label: itemsArr[i].namesPathArr[0] + " " + itemsArr[i].namesPathArr[1],
+            label: getPlaceNameLabel[i],
             data: []
         })
         if (itemsArr[i].data == undefined) continue;
@@ -125,20 +136,16 @@ const hourlyForecastChart = (itemsArr) => {
     return myChart;
 }
 
-const currentMultipleChart = (itemsArr) => {
+const barChartMultipleDataset = (itemsArr, pathArr, dataSetLabel) => {
     let xValues = [];
-
-    let barColors = [];
     for (let i = 0; i < itemsArr.length; i++) {
         if (itemsArr[i].data == undefined) continue;
-        xValues.push(itemsArr[i].namesPathArr[0] + " " + itemsArr[i].namesPathArr[1])
-            //barColors.push(indexToColor(itemsArr[i].selectedItemsIndex))
+        xValues.push(getPlaceNameLabel(itemsArr, i))
     }
-
     let chartOptions = {
         plugins: {
             legend: {
-                display: true
+                display: pathArr.length > 1
             },
             title: {
                 display: true,
@@ -154,43 +161,49 @@ const currentMultipleChart = (itemsArr) => {
         },
         options: chartOptions
     }
-    for (let i = 0; i < 4; i++) {
+    let itemsSingleDataValue, flag;
+    for (let i = 0; i < pathArr.length; i++) {
         myChart.data.datasets.push({
             backgroundColor: [],
-            //fillColor: "red",
             borderColor: "",
-            label: "",
+            label: [],
             data: []
         })
+        flag = true;
         for (let j = 0; j < itemsArr.length; j++) {
-            //myChart.data.datasets[i].backgroundColor.push(indexToColor(itemsArr[i].selectedItemsIndex));
-            if (i == 0) {
-                myChart.data.datasets[i].backgroundColor.push('rgba(75, 192, 192, 0.5)');
-                myChart.data.datasets[i].label = "Ahora";
-                myChart.data.datasets[i].data.push(itemsArr[j].data.current.temp)
+            itemsSingleDataValue = itemsArr[j].data;
+            if (pathArr.length == 1) myChart.data.datasets[0].backgroundColor.push(indexToColor(itemsArr[j].selectedItemsIndex));
+            if (flag) {
+                //myChart.data.datasets[i].label = dataSetLabel[j];
+                //flag = !flag
             }
-            if (i == 1) {
-                myChart.data.datasets[i].backgroundColor.push('rgba(255, 205, 86, 0.2)');
-                myChart.data.datasets[i].label = "S.T.";
-                myChart.data.datasets[i].data.push(itemsArr[j].data.current.feels_like)
-            }
-            if (i == 2) { //rgba(75, 192, 192, 0.5)
-                myChart.data.datasets[i].backgroundColor.push('rgba(255, 159, 64, 0.5)');
-                myChart.data.datasets[i].label = "Max";
-                myChart.data.datasets[i].data.push(itemsArr[j].data.daily[0].temp.max)
-            }
-            if (i == 3) {
-                myChart.data.datasets[i].backgroundColor.push('rgba(54, 162, 235, 0.5)');
-                myChart.data.datasets[i].label = "Min";
-                myChart.data.datasets[i].data.push(itemsArr[j].data.daily[0].temp.min)
-            }
+            for (let k = 0; k < pathArr[i].length; k++) {
+                itemsSingleDataValue = itemsSingleDataValue[pathArr[i][k]];
+                if (flag) {
+                    myChart.data.datasets[i].label = dataSetLabel[k];
+                    flag = !flag
+                }
+                //myChart.data.datasets[i].label.push(dataSetLabel[k]);
+            };
+            myChart.data.datasets[i].data.push(itemsSingleDataValue)
         }
+
+        if (i == 0 && pathArr.length > 1) myChart.data.datasets[i].backgroundColor.push('rgba(75, 192, 192, 0.5)');
+        else if (i == 1 && pathArr.length > 1) myChart.data.datasets[i].backgroundColor.push('rgba(255, 205, 86, 0.2)');
+        else if (i == 2 && pathArr.length > 1) myChart.data.datasets[i].backgroundColor.push('rgba(255, 159, 64, 0.5)');
+        else if (i == 3 && pathArr.length > 1) myChart.data.datasets[i].backgroundColor.push('rgba(54, 162, 235, 0.5)');
+        else if (pathArr.length > 1) myChart.data.datasets[i].backgroundColor.push('rgba(201, 203, 207, 0.5)');
+        console.log("myChart", myChart)
     }
-    //console.log("myChart", myChart)
     return myChart;
 }
+const getPlaceNameLabel = (itemsArr, index) => {
+    return itemsArr[index].namesPathArr[0].length == 0 ?
+        itemsArr[index].namesPathArr[1] :
+        itemsArr[index].namesPathArr[0] + ' > ' + itemsArr[index].namesPathArr[1]
+}
 
-const getProximosDias = (day, howManyDays) => {
+const getNextDaysLabels = (day, howManyDays) => {
 
     let diaNombre = new Array(7);
     diaNombre[0] = "Domingo";
@@ -289,4 +302,4 @@ const getWindDirectionLabel = (windDeg) => {
     */
 }
 
-export { getMyChart, indexToColor, getProximosDias, getWindDirectionLabel }
+export { getMyChart, indexToColor, getNextDaysLabels, getWindDirectionLabel, getPlaceNameLabel }

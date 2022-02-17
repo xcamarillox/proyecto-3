@@ -1,6 +1,3 @@
-// Development
-import allMexico from "./locations.js";
-
 const APIkey = "0daa5082c483deefa2dd813c45f8a087";
 
 const getCompleteWeatherData = async(selectedItems, wantedIndex, wantedUnits) => {
@@ -10,7 +7,6 @@ const getCompleteWeatherData = async(selectedItems, wantedIndex, wantedUnits) =>
     };
     let indexCount = 1;
     let coordObjt, endpoint;
-    //let expression = wantedIndex == -1 || selectedItems.selectedArr[wantedIndex] == undefined || selectedItems.selectedArr[wantedIndex][1] == undefined;
     let expression = wantedIndex < 0 || selectedItems[wantedIndex].coord == undefined;
     if (expression) {
         indexCount = selectedItems.length;
@@ -23,8 +19,6 @@ const getCompleteWeatherData = async(selectedItems, wantedIndex, wantedUnits) =>
     }
     return weatherData;
 }
-
-//const getCurrentWeatherData = async(selectedItems, wantedIndex, units) => {}
 
 const getLatAndLon = (coord) => {
     let latAndLonArr = coord.split(",", 2);
