@@ -5,9 +5,9 @@ import Chart from 'chart.js/auto';
 import 'regenerator-runtime/runtime'; // async await functions
 // Development
 import allMexico from "./locations.js";
+import { getMyChart } from "./chart-functions.js"
 import { getCompleteWeatherData } from "./api-functions.js";
 import {
-    getMyChart,
     indexToColor,
     getNextDaysLabels,
     getPlaceNameLabel,
@@ -232,7 +232,7 @@ const App = new Vue({
                 };
             };
             if (this.myChart != null) this.myChart.destroy();
-            this.myChart = new Chart('myChart', getMyChart(this.itemsToShow, 4));
+            this.myChart = new Chart('myChart', getMyChart(this.itemsToShow, 5));
         },
     },
     watch: {},
