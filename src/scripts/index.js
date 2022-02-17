@@ -3,6 +3,7 @@ import bootstrap from "bootstrap"
 import Vue from "../../node_modules/vue/dist/vue"
 import Chart from 'chart.js/auto';
 import 'regenerator-runtime/runtime'; // async await functions
+
 // Development
 import allMexico from "./locations.js";
 import { getMyChart } from "./chart-functions.js"
@@ -95,8 +96,7 @@ const App = new Vue({
                 coord: "",
                 namesPathArr: [],
                 data: [undefined],
-                status: "",
-
+                status: ""
             }
             if (this.modalData.radioValue == 1) {
                 cacheArr.push(allMexico[this.selectListData.indexPath[0]].name);
@@ -232,7 +232,7 @@ const App = new Vue({
                 };
             };
             if (this.myChart != null) this.myChart.destroy();
-            this.myChart = new Chart('myChart', getMyChart(this.itemsToShow, 5));
+            this.myChart = new Chart('myChart', getMyChart(this.itemsToShow, 3));
         },
     },
     watch: {},

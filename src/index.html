@@ -84,16 +84,12 @@
                                     <th :colspan="itemsToShow.length + 1" class="text-center">HOY</th>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Ahora</th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.current.temp}}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="col ">Sensación Térmica (S.T.)</th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.current.feels_like}}</td>
-                                </tr>
-                                <tr>
                                     <th scope="col ">Max / Min</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[0].temp.max}} / {{item.data.daily[0].temp.min}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col ">Ahora / Sensación Térmica (S.T.)</th>
+                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.current.temp}} / {{item.data.current.feels_like}}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad</th>
