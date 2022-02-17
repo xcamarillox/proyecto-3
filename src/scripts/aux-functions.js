@@ -161,7 +161,7 @@ const barChartMultipleDataset = (itemsArr, pathArr, dataSetLabel) => {
         },
         options: chartOptions
     }
-    let itemsSingleDataValue, flag;
+    let itemsSingleDataValue;
     for (let i = 0; i < pathArr.length; i++) {
         myChart.data.datasets.push({
             backgroundColor: [],
@@ -169,22 +169,11 @@ const barChartMultipleDataset = (itemsArr, pathArr, dataSetLabel) => {
             label: [],
             data: []
         })
-        flag = true;
         for (let j = 0; j < itemsArr.length; j++) {
             itemsSingleDataValue = itemsArr[j].data;
             if (pathArr.length == 1) myChart.data.datasets[0].backgroundColor.push(indexToColor(itemsArr[j].selectedItemsIndex));
-            if (flag) {
-                //myChart.data.datasets[i].label = dataSetLabel[j];
-                //flag = !flag
-            }
-            for (let k = 0; k < pathArr[i].length; k++) {
-                itemsSingleDataValue = itemsSingleDataValue[pathArr[i][k]];
-                if (flag) {
-                    myChart.data.datasets[i].label = dataSetLabel[k];
-                    flag = !flag
-                }
-                //myChart.data.datasets[i].label.push(dataSetLabel[k]);
-            };
+            for (let k = 0; k < pathArr[i].length; k++) itemsSingleDataValue = itemsSingleDataValue[pathArr[i][k]];
+            myChart.data.datasets[i].label = dataSetLabel[i];
             myChart.data.datasets[i].data.push(itemsSingleDataValue)
         }
 
