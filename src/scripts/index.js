@@ -29,9 +29,9 @@ const App = new Vue({
         itemsToShow: [],
     }),
     created() {
-        this.chartEraseButtonClick();
         this.etiquetasLugares = getPlaceNameLabel;
         this.proximosDias = getNextDaysLabels(-1, 8);
+        this.chartEraseButtonClick();
     },
     methods: {
         copyObj(obj) {
@@ -132,7 +132,14 @@ const App = new Vue({
                 selectedItemsIdxsArr: [],
                 items: [
                     "[SELECCIONA UN RANGO TEMPORAL]",
-                    "Por Día",
+                    "El Día de Hoy",
+                    "El Día " + this.proximosDias[1],
+                    "El Día " + this.proximosDias[2],
+                    "El Día " + this.proximosDias[3],
+                    "El Día " + this.proximosDias[4],
+                    "El Día " + this.proximosDias[5],
+                    "El Día " + this.proximosDias[6],
+                    "El Día " + this.proximosDias[7],
                     "Por 7 Días",
                     "Por 48 Hrs",
                 ]
@@ -155,30 +162,26 @@ const App = new Vue({
                 this.chartSelectListData.eraseButtonDisabledToggle = false;
                 this.chartSelectListData.items = [];
                 switch (index) {
-                    case 1:
+                    case 9:
+                        this.chartSelectListData.items.push(this.chartSelectListData.selectedItemsLabelsArr[0] + " > [SELECCIONA UN RUBRO]");
+                        this.chartSelectListData.items.push("Temperatura Max - [°C]");
+                        this.chartSelectListData.items.push("Temperatura Min - [°C]");
+                        this.chartSelectListData.items.push("PoP - [%]");
+                        this.chartSelectListData.items.push("Humedad - [%]");
+                        this.chartSelectListData.items.push("Velocidad del Viento - [km/h]");
+                        break;
+                    case 10:
+                        this.chartSelectListData.items.push(this.chartSelectListData.selectedItemsLabelsArr[0] + " > [SELECCIONA UN RUBRO]");
+                        this.chartSelectListData.items.push("Temperatura - [°C]");
+                        this.chartSelectListData.items.push("PoP - [%]");
+                        this.chartSelectListData.items.push("Velocidad del Viento - [km/h]");
+                        break;
+                    default:
                         this.chartSelectListData.items.push(this.chartSelectListData.selectedItemsLabelsArr[0] + " > [SELECCIONA DÍA Y RUBRO]");
-                        this.chartSelectListData.items.push("Hoy: (Temp) Max / Min / Ahora / S.T.");
-                        this.chartSelectListData.items.push("Hoy: (%) PoP / Humedad");
-                        this.chartSelectListData.items.push("Hoy: Velocidad del Viento");
-                        for (let i = 1; i < this.proximosDias.length; i++) {
-                            this.chartSelectListData.items.push(this.proximosDias[i] + ": (Temp)  Max / Min");
-                            this.chartSelectListData.items.push(this.proximosDias[i] + ": (%) PoP / Humedad");
-                            this.chartSelectListData.items.push(this.proximosDias[i] + ": Velocidad del Viento");
-                        }
-                        break;
-                    case 2:
-                        this.chartSelectListData.items.push(this.chartSelectListData.selectedItemsLabelsArr[0] + " > [SELECCIONA UN RUBRO]");
-                        this.chartSelectListData.items.push("(Temp) Max");
-                        this.chartSelectListData.items.push("(Temp) Min");
-                        this.chartSelectListData.items.push("PoP");
-                        this.chartSelectListData.items.push("Humedad");
-                        this.chartSelectListData.items.push("Velocidad del Viento");
-                        break;
-                    case 3:
-                        this.chartSelectListData.items.push(this.chartSelectListData.selectedItemsLabelsArr[0] + " > [SELECCIONA UN RUBRO]");
-                        this.chartSelectListData.items.push("Temp");
-                        this.chartSelectListData.items.push("PoP");
-                        this.chartSelectListData.items.push("Velocidad del Viento");
+                        if (index == 1) this.chartSelectListData.items.push("Temperatura: Max / Min / Ahora / S.T. - [°C]");
+                        else this.chartSelectListData.items.push("Temperatura:  Max / Min - [°C]");
+                        this.chartSelectListData.items.push("PoP / Humedad - [%]");
+                        this.chartSelectListData.items.push("Velocidad del Viento - [km/h]");
                         break;
                 }
             } else {

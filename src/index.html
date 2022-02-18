@@ -126,19 +126,19 @@
                                     <th :colspan="itemsToShow.length + 1" class="text-center">HOY</th>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Max / Min</th>
+                                    <th scope="col ">Max / Min - [°C]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[0].temp.max}} / {{item.data.daily[0].temp.min}}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Ahora / Sensación Térmica (S.T.)</th>
+                                    <th scope="col ">Ahora / Sensación Térmica (S.T.) - [°C]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.current.temp}} / {{item.data.current.feels_like}}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad</th>
+                                    <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad - [%]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[0].pop * 100}}% / {{item.data.daily[0].humidity}}%</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Dirección y Velocidad del Viento</th>
+                                    <th scope="col ">Dirección y Velocidad del Viento - [km/h]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{windDirection(item.data.daily[0].wind_deg)}} {{item.data.daily[0].wind_speed}}</td>
                                 </tr>
                                 <!-- ***************DIA1*************** -->
@@ -146,15 +146,15 @@
                                     <th :colspan="selectedItems.length + 1" class="text-center">{{proximosDias[1]}}</th>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Max / Min</th>
+                                    <th scope="col ">Max / Min - [°C]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[1].temp.max}} / {{item.data.daily[1].temp.min}}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad</th>
+                                    <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad - [%]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[1].pop * 100}}% / {{item.data.daily[1].humidity}}%</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Dirección y Velocidad del Viento</th>
+                                    <th scope="col ">Dirección y Velocidad del Viento - [km/h]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{windDirection(item.data.daily[1].wind_deg)}} {{item.data.daily[1].wind_speed}}</td>
                                 </tr>
                                 <!-- ***************DIA2*************** -->
@@ -162,15 +162,15 @@
                                     <th :colspan="selectedItems.length + 1" class="text-center">{{proximosDias[2]}}</th>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Max / Min</th>
+                                    <th scope="col ">Max / Min - [°C]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[2].temp.max}} / {{item.data.daily[2].temp.min}}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad</th>
+                                    <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad - [%]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[2].pop * 100}}% / {{item.data.daily[2].humidity}}%</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Dirección y Velocidad del Viento</th>
+                                    <th scope="col ">Dirección y Velocidad del Viento - [km/h]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{windDirection(item.data.daily[2].wind_deg)}} {{item.data.daily[2].wind_speed}}</td>
                                 </tr>
                                 <!-- ***************DIA3*************** -->
@@ -178,15 +178,15 @@
                                     <th :colspan="selectedItems.length + 1" class="text-center">{{proximosDias[3]}}</th>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Max / Min</th>
+                                    <th scope="col ">Max / Min - [°C]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[3].temp.max}} / {{item.data.daily[3].temp.min}}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad</th>
+                                    <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad - [%]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[3].pop * 100}}% / {{item.data.daily[3].humidity}}%</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Dirección y Velocidad del Viento</th>
+                                    <th scope="col ">Dirección y Velocidad del Viento - [km/h]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{windDirection(item.data.daily[3].wind_deg)}} {{item.data.daily[3].wind_speed}}</td>
                                 </tr>
                                 <!-- ***************DIA4*************** -->
@@ -194,15 +194,15 @@
                                     <th :colspan="selectedItems.length + 1" class="text-center">{{proximosDias[4]}}</th>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Max / Min</th>
+                                    <th scope="col ">Max / Min - [°C]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[4].temp.max}} / {{item.data.daily[4].temp.min}}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad</th>
+                                    <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad - [%]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[4].pop * 100}}% / {{item.data.daily[4].humidity}}%</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Dirección y Velocidad del Viento</th>
+                                    <th scope="col ">Dirección y Velocidad del Viento - [km/h]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{windDirection(item.data.daily[4].wind_deg)}} {{item.data.daily[4].wind_speed}}</td>
                                 </tr>
                                 <!-- ***************DIA5*************** -->
@@ -210,15 +210,15 @@
                                     <th :colspan="selectedItems.length + 1" class="text-center">{{proximosDias[5]}}</th>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Max / Min</th>
+                                    <th scope="col ">Max / Min - [°C]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[5].temp.max}} / {{item.data.daily[5].temp.min}}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad</th>
+                                    <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad - [%]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[5].pop * 100}}% / {{item.data.daily[5].humidity}}%</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Dirección y Velocidad del Viento</th>
+                                    <th scope="col ">Dirección y Velocidad del Viento - [km/h]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{windDirection(item.data.daily[5].wind_deg)}} {{item.data.daily[5].wind_speed}}</td>
                                 </tr>
                                 <!-- ***************DIA6*************** -->
@@ -226,15 +226,15 @@
                                     <th :colspan="selectedItems.length + 1" class="text-center">{{proximosDias[6]}}</th>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Max / Min</th>
+                                    <th scope="col ">Max / Min - [°C]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[6].temp.max}} / {{item.data.daily[6].temp.min}}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad</th>
+                                    <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad - [%]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[6].pop * 100}}% / {{item.data.daily[6].humidity}}%</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Dirección y Velocidad del Viento</th>
+                                    <th scope="col ">Dirección y Velocidad del Viento - [km/h]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{windDirection(item.data.daily[6].wind_deg)}} {{item.data.daily[6].wind_speed}}</td>
                                 </tr>
                                 <!-- ***************DIA7*************** -->
@@ -242,19 +242,19 @@
                                     <th :colspan="selectedItems.length + 1" class="text-center">{{proximosDias[7]}}</th>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Max / Min</th>
+                                    <th scope="col ">Max / Min - [°C]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[7].temp.max}} / {{item.data.daily[7].temp.min}}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad</th>
+                                    <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad - [%]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[7].pop * 100}}% / {{item.data.daily[7].humidity}}%</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col ">Dirección y Velocidad del Viento</th>
+                                    <th scope="col ">Dirección y Velocidad del Viento - [km/h]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{windDirection(item.data.daily[7].wind_deg)}} {{item.data.daily[7].wind_speed}}</td>
                                 </tr>
                                 <tr>
-                                    <th :colspan="selectedItems.length + 1" class="text-center">Pronóstico Hora a Hora (48hrs) [Temp / PoP / Viento]</th>
+                                    <th :colspan="selectedItems.length + 1" class="text-center">Pronóstico Hora a Hora (48hrs) [Temp (°C) / PoP (%) / Viento (km/h)]</th>
                                 </tr>
                                 <!-- ***************1HR*************** -->
                                 <tr>
