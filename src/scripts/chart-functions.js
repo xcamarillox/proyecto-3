@@ -2,42 +2,76 @@
 import { indexToColor, getPlaceNameLabel, getNextDaysLabels } from "./aux-functions.js";
 
 const getMyChart = (itemsArr, mode) => {
-    switch (mode) {
-        case 0:
-            return lineChartMultipleDataset(itemsArr, {
-                pathArr: ["daily", "temp", "max"],
-                title: "Pronostico a 7 dias de Max"
-            });
-        case 1:
-            return lineChartMultipleDataset(itemsArr, {
-                pathArr: ["hourly", "temp"],
-                title: "Pronostico por horas (48hrs) de Temp"
-            });
-        case 2:
-            return barChartMultipleDataset(itemsArr, {
-                pathArr: [
-                    ["current", "temp"]
-                ],
-                dataSetLabel: ["Ahora"],
-                title: "Temperatura Ahora"
-            });
-        case 3:
-            return barChartMultipleDataset(itemsArr, {
-                pathArr: [
-                    ["daily", 0, "temp", "max"],
-                    ["daily", 0, "temp", "min"],
-                    ["current", "temp"],
-                    ["current", "feels_like"],
-                ],
-                dataSetLabel: ["Max", "Min", "Hoy", "S.T."],
-                title: "Hoy"
-            });
-        default:
-            return lineChartMultipleDataset(itemsArr, {
-                pathArr: ["hourly", "temp"],
-                title: "Pronostico por horas (48hrs) de Temp"
-            });
-    }
+    if (mode[0] == 1) {
+        let mode1 = mode[1] - 1;
+        let day = Math.floor(mode1 / 3);
+        let option = mode1 % 3;
+        console.log("getMyChart1", day, option, itemsArr)
+        if (day == 0 && option == 0) return barChartMultipleDataset(itemsArr, {
+            pathArr: [
+                ["daily", 0, "temp", "max"],
+                ["daily", 0, "temp", "min"],
+                ["current", "temp"],
+                ["current", "feels_like"],
+            ],
+            dataSetLabel: ["Max", "Min", "Ahora", "S.T."],
+            title: "Temperatura Max, Min, Ahora y S.T: Hoy"
+        })
+        else if (day > 0 && option == 0) return barChartMultipleDataset(itemsArr, {
+            pathArr: [
+                ["daily", day, "temp", "max"],
+                ["daily", day, "temp", "min"],
+            ],
+            dataSetLabel: ["Max", "Min"],
+            title: `Temperatura Max y Min: ${getNextDaysLabels(day)}`
+        })
+        else if (option == 1) return barChartMultipleDataset(itemsArr, {
+            pathArr: [
+                ["daily", day, "pop"],
+                ["daily", day, "humidity"],
+            ],
+            dataSetLabel: ["PoP", "Humedad"],
+            title: `PoP y Humedad: ${day == 0 ? "Hoy" : getNextDaysLabels(day)}`
+        })
+        else if (option == 2) return barChartMultipleDataset(itemsArr, {
+            pathArr: [
+                ["daily", day, "wind_speed"],
+            ],
+            dataSetLabel: ["N/A"],
+            title: `Velocidad del Viento: ${day == 0 ? "Hoy" : getNextDaysLabels(day)}`
+        })
+    } else if (mode[0] == 2 && mode[1] == 1) return lineChartMultipleDataset(itemsArr, {
+        pathArr: ["daily", "temp", "max"],
+        title: "Pronóstico a 7 dias de la Temperatura Max"
+    });
+    else if (mode[0] == 2 && mode[1] == 2) return lineChartMultipleDataset(itemsArr, {
+        pathArr: ["daily", "temp", "min"],
+        title: "Pronóstico a 7 dias de la Temperatura Min"
+    });
+    else if (mode[0] == 2 && mode[1] == 3) return lineChartMultipleDataset(itemsArr, {
+        pathArr: ["daily", "pop"],
+        title: "Pronóstico a 7 dias de PoP"
+    });
+    else if (mode[0] == 2 && mode[1] == 4) return lineChartMultipleDataset(itemsArr, {
+        pathArr: ["daily", "humidity"],
+        title: "Pronóstico a 7 dias de la Humedad"
+    });
+    else if (mode[0] == 2 && mode[1] == 5) return lineChartMultipleDataset(itemsArr, {
+        pathArr: ["daily", "wind_speed"],
+        title: "Pronóstico a 7 dias la Velocidad del Viento"
+    });
+    else if (mode[0] == 3 && mode[1] == 1) return lineChartMultipleDataset(itemsArr, {
+        pathArr: ["hourly", "temp"],
+        title: "Pronóstico a 48 horas de la Temperatura (Temp)"
+    });
+    else if (mode[0] == 3 && mode[1] == 2) return lineChartMultipleDataset(itemsArr, {
+        pathArr: ["hourly", "pop"],
+        title: "Pronóstico a 48 horas de PoP"
+    });
+    else if (mode[0] == 3 && mode[1] == 3) return lineChartMultipleDataset(itemsArr, {
+        pathArr: ["hourly", "wind_speed"],
+        title: "Pronóstico a 48 horas de la Velocidad del Viento"
+    });
 }
 
 const barChartMultipleDataset = (itemsArr, setupObjt) => {
@@ -54,6 +88,10 @@ const barChartMultipleDataset = (itemsArr, setupObjt) => {
             },
             title: {
                 display: true,
+                font: {
+                    size: 18,
+                    weight: 'normal'
+                },
                 text: setupObjt.title
             }
         }
@@ -76,8 +114,9 @@ const barChartMultipleDataset = (itemsArr, setupObjt) => {
         })
         for (let j = 0; j < itemsArr.length; j++) {
             itemsSingleDataValue = itemsArr[j].data;
-            if (pathArr.length == 1) myChart.data.datasets[0].backgroundColor.push(indexToColor(itemsArr[j].selectedItemsIndex));
+            if (pathArr.length == 1) myChart.data.datasets[0].backgroundColor.push(indexToColor(itemsArr[j].selectedItemsIndex, 0.5));
             for (let k = 0; k < pathArr[i].length; k++) itemsSingleDataValue = itemsSingleDataValue[pathArr[i][k]];
+            if (pathArr[i][pathArr[i].length - 1] == "pop") itemsSingleDataValue *= 100; //pop to percentage
             myChart.data.datasets[i].label = setupObjt.dataSetLabel[i];
             myChart.data.datasets[i].data.push(itemsSingleDataValue)
         }
@@ -107,6 +146,10 @@ const lineChartMultipleDataset = (itemsArr, setupObjt) => {
             },
             title: {
                 display: true,
+                font: {
+                    size: 18,
+                    weight: 'normal'
+                },
                 text: setupObjt.title
             }
         }
@@ -131,6 +174,7 @@ const lineChartMultipleDataset = (itemsArr, setupObjt) => {
         for (let j = 0; j < itemsArr[i].data[pathArr[0]].length; j++) {
             itemsSingleDataValue = itemsArr[i].data[pathArr[0]][j];
             for (let k = 1; k < pathArr.length; k++) itemsSingleDataValue = itemsSingleDataValue[pathArr[k]];
+            if (pathArr[pathArr.length - 1] == "pop") itemsSingleDataValue *= 100; //pop to percentage
             myChart.data.datasets[i].data.push(itemsSingleDataValue)
         }
     }

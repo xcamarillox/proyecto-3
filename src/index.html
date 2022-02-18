@@ -48,7 +48,7 @@
                         <button type="button" class="btn btn-secondary nav-item" v-if="selectedItems.length<6" @click="initModal(1)" data-bs-toggle="modal" data-bs-target="#myModal">Añadir Ubicación...</button>
                     </div>
                 </nav>
-                <!-- ********************** main ********************** -->
+                <!-- ********************** MAIN ********************** -->
                 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 ">
                     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom ">
                         <h1 class="h2 ">Hoy</h1>
@@ -60,12 +60,54 @@
                             </div>
                         </div>
                     </div>
-
+                    <!-- ********************** CHART ********************** -->
                     <div class="grafica" v-show="itemsToShow.length > 0">
-                        <h2 class="border-bottom">Gráfica</h2>
-                        <canvas class="my-4 w-100 " id="myChart" width="900 " height="380 "></canvas>
+                        <h2 class="border-bottom">Gráficas</h2>
+                        <div v-show="myCharts.length > 0">
+                            <div class="chart-rel">
+                                <a class="text-secondary" class="chart-rel" @click="deleteItemChart(0)" v-show="myCharts.length > 1"><i class="fa-regular fa-circle-xmark fa-lg"></i></a>
+                            </div>
+                            <canvas class="my-4 w-100 " id="myChart0" width="900 " height="380 "></canvas>
+                        </div>
+                        <div v-show="myCharts.length > 1">
+                            <div class="chart-rel">
+                                <a class="text-secondary" @click="deleteItemChart(1)" v-show="myCharts.length > 1"><i class="fa-regular fa-circle-xmark fa-lg"></i></a>
+                            </div>
+                            <canvas class="my-4 w-100 " id="myChart1" width="900 " height="380 "></canvas>
+                        </div>
+                        <div v-show="myCharts.length > 2">
+                            <div class="chart-rel">
+                                <a class="text-secondary" @click="deleteItemChart(2)" v-show="myCharts.length > 1"><i class="fa-regular fa-circle-xmark fa-lg"></i></a>
+                            </div>
+                            <canvas class="my-4 w-100 " id="myChart2" width="900 " height="380 "></canvas>
+                        </div>
+                        <div v-show="myCharts.length > 3">
+                            <div class="chart-rel">
+                                <a class="text-secondary" @click="deleteItemChart(3)" v-show="myCharts.length > 1"><i class="fa-regular fa-circle-xmark fa-lg"></i></a>
+                            </div>
+                            <canvas class="my-4 w-100 " id="myChart3" width="900 " height="380 "></canvas>
+                        </div>
+                        <div v-show="myCharts.length > 4">
+                            <div class="chart-rel">
+                                <a class="text-secondary" @click="deleteItemChart(4)" v-show="myCharts.length > 1"><i class="fa-regular fa-circle-xmark fa-lg"></i></a>
+                            </div>
+                            <canvas class="my-4 w-100 " id="myChart4" width="900 " height="380 "></canvas>
+                        </div>
+                        <div v-show="myCharts.length > 5">
+                            <div class="chart-rel">
+                                <a class="text-secondary" @click="deleteItemChart(5)" v-show="myCharts.length > 1"><i class="fa-regular fa-circle-xmark fa-lg"></i></a>
+                            </div>
+                            <canvas class="my-4 w-100 " id="myChart5" width="900 " height="380 "></canvas>
+                        </div>
+                        <div class="input-group mb-3" v-if="myCharts.length < 6">
+                            <select v-model="chartSelectListData.selectedItemIndex" :disabled="chartSelectListData.disabledToggle" class="form-select" @change="changeOnChartSelect($event.target.selectedIndex)">
+                                <option :value="index" v-for="(item, index) in chartSelectListData.items" :key="index">{{item}}</option>
+                            </select>
+                            <button class="btn btn-secondary" type="button" id="button-addon" :disabled="chartSelectListData.eraseButtonDisabledToggle" @click="chartEraseButtonClick()"><i class="fa-solid fa-square-xmark"></i></button>
+                            <button class="btn btn-success" type="button" id="button-addon" :disabled="!chartSelectListData.disabledToggle" @click="addNewChart()"><i class="fa-solid fa-square-plus"></i></button>
+                        </div>
                     </div>
-
+                    <!-- ********************** TABLE ********************** -->
                     <div class="table-responsive " v-if="itemsToShow.length > 0">
                         <table class="table table-striped table-sm ">
                             <thead>
@@ -473,8 +515,8 @@
                             <span class="input-group-text">
                                 <input class="form-check-input mt-0" type="radio" name="flexRadioDefault" id="flexRadio1" v-model="modalData.radioValue" value="1" @change=changeOnRadio>
                             </span>
-                            <select v-model="selectListData.selectedItemIndex" :disabled="modalData.selectListDisabledToggle" class="form-select" @change="changeOnSelect($event.target.selectedIndex)">
-                                <option :value="index" v-for="(place, index) in selectListData.places" :key="index">{{place}}</option>
+                            <select v-model="modalSelectListData.selectedItemIndex" :disabled="modalData.selectListDisabledToggle" class="form-select" @change="changeOnModalSelect($event.target.selectedIndex)">
+                                <option :value="index" v-for="(place, index) in modalSelectListData.places" :key="index">{{place}}</option>
                             </select>
                             <button class="btn btn-secondary" type="button" id="button-addon" :disabled="modalData.eraseButtonDisabledToggle" @click="initModal(0)"><i class="far fa-times-circle"></i></button>
                         </div>
@@ -482,8 +524,8 @@
                             <span class="input-group-text">
                                 <input class="form-check-input mt-0" type="radio" name="flexRadioDefault" id="flexRadio2" v-model="modalData.radioValue" value="2" @change=changeOnRadio>
                             </span>
-                            <input type="text" class="form-control" placeholder="lon,lat Ejem: -21.77,-102.35" @input="changeOnInput($event.target.selectedIndex)" v-model="inputsData.coord">
-                            <input type="text" class="form-control" placeholder="[alias [opcional]]" v-model="inputsData.alias">
+                            <input type="text" class="form-control" placeholder="lon,lat Ejem: -21.77,-102.35" @input="changeOnInput($event.target.selectedIndex)" v-model="modalInputsData.coord">
+                            <input type="text" class="form-control" placeholder="[alias [opcional]]" v-model="modalInputsData.alias">
                         </div>
                     </div>
                     <div class="modal-footer">

@@ -28,24 +28,23 @@ const getNextDaysLabels = (day, howManyDays) => {
     }
 }
 
-const indexToColor = (index) => {
+const indexToColor = (index, opacity) => {
+    if (opacity == undefined) opacity = 1;
     switch (index) {
         case 0:
-            return "blue";
+            return `rgba(0, 0, 225, ${opacity})`; //blue
         case 1:
-            return "red";
+            return `rgba(255, 0, 0, ${opacity})`; //red
         case 2:
-            return "green";
+            return `rgba(0, 128, 0, ${opacity})`; //green
         case 3:
-            return "orange";
+            return `rgba(255, 165, 0, ${opacity})`; //orange
         case 4:
-            return "purple";
+            return `rgba(128, 0, 128, ${opacity})`; //purple
         case 5:
-            return "pink";
-        case 6:
-            return "olive";
+            return `rgba(0, 255, 255, ${opacity})`; //aqua
         default:
-            return "black;";
+            return `rgba(0, 0, 0, ${opacity})`; //black
     }
 }
 

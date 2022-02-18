@@ -18,25 +18,20 @@ import {
 const App = new Vue({
     el: '#app',
     data: () => ({
-        proximosDias: getNextDaysLabels(-1, 9),
-        etiquetasLugares: getPlaceNameLabel,
-        myChart: null,
+        etiquetasLugares: null,
+        proximosDias: null,
+        myCharts: [],
         modalData: {},
-        selectListData: {},
-        inputsData: {},
-        selectedItems: [
-            //{
-            //selectedOp: 1,
-            //coord: "40.73,-73.93"
-            //namesPathArr: [],
-            //data: [],
-            //status: "pending"
-            //}
-        ],
+        chartSelectListData: {},
+        modalSelectListData: {},
+        modalInputsData: {},
+        selectedItems: [],
         itemsToShow: [],
     }),
-    computed: {
-
+    created() {
+        this.chartEraseButtonClick();
+        this.etiquetasLugares = getPlaceNameLabel;
+        this.proximosDias = getNextDaysLabels(-1, 8);
     },
     methods: {
         copyObj(obj) {
@@ -44,15 +39,15 @@ const App = new Vue({
         },
         initModal(modalMode) {
             let title, inputDataReady, itemIndex;
-            this.selectListData = {
+            this.modalSelectListData = {
                 places: [],
                 cityToggle: true,
                 selectedItemIndex: 0,
                 indexPath: []
             }
-            this.selectListData.places.push("[SELECCIONA UN ESTADO] >")
+            this.modalSelectListData.places.push("[SELECCIONA UN ESTADO]")
             for (const state of allMexico) {
-                this.selectListData.places.push(state.name)
+                this.modalSelectListData.places.push(state.name)
             }
             if (this.modalData.hasOwnProperty('title')) title = this.modalData.title;
             if (this.modalData.hasOwnProperty('inputDataReady')) inputDataReady = this.modalData.inputDataReady;
@@ -60,7 +55,7 @@ const App = new Vue({
 
             if (modalMode == 0 || modalMode == 1) {
                 this.modalData = {
-                    selectListDataReady: false,
+                    modalSelectListDataReady: false,
                     selectListDisabledToggle: false,
                     aceptarButtonDisabledToggle: true,
                     eraseButtonDisabledToggle: true,
@@ -77,20 +72,21 @@ const App = new Vue({
                 }
             }
             if (modalMode != 0) {
-                this.inputsData = {
+                this.modalInputsData = {
                     coord: "",
                     alias: ""
                 }
             }
         },
         changeOnRadio() {
-            if (this.modalData.radioValue == 1 && this.modalData.selectListDataReady ||
+            if (this.modalData.radioValue == 1 && this.modalData.modalSelectListDataReady ||
                 this.modalData.radioValue == 2 && this.modalData.inputDataReady)
                 this.modalData.aceptarButtonDisabledToggle = false;
             else this.modalData.aceptarButtonDisabledToggle = true;
         },
         clickOK() {
             let cacheArr = [];
+            //******PARAMS ON selectedItem******//
             let selectedItem = {
                 selectedOp: 0,
                 coord: "",
@@ -99,13 +95,13 @@ const App = new Vue({
                 status: ""
             }
             if (this.modalData.radioValue == 1) {
-                cacheArr.push(allMexico[this.selectListData.indexPath[0]].name);
-                cacheArr.push(allMexico[this.selectListData.indexPath[0]].cities[this.selectListData.indexPath[1]].name);
-                selectedItem.coord = allMexico[this.selectListData.indexPath[0]].cities[this.selectListData.indexPath[1]].coordinates;
+                cacheArr.push(allMexico[this.modalSelectListData.indexPath[0]].name);
+                cacheArr.push(allMexico[this.modalSelectListData.indexPath[0]].cities[this.modalSelectListData.indexPath[1]].name);
+                selectedItem.coord = allMexico[this.modalSelectListData.indexPath[0]].cities[this.modalSelectListData.indexPath[1]].coordinates;
             } else if (this.modalData.radioValue == 2) {
-                cacheArr.push(this.inputsData.alias.trim());
-                cacheArr.push(this.inputsData.coord.trim());
-                selectedItem.coord = this.inputsData.coord;
+                cacheArr.push(this.modalInputsData.alias.trim());
+                cacheArr.push(this.modalInputsData.coord.trim());
+                selectedItem.coord = this.modalInputsData.coord;
             }
             selectedItem.selectedOp = this.modalData.radioValue;
             selectedItem.namesPathArr = cacheArr;
@@ -113,7 +109,7 @@ const App = new Vue({
             this.updateWeatherData(this.modalData.itemIndex, "metric");
         },
         changeOnInput() {
-            let splitArr = this.inputsData.coord.split(",");
+            let splitArr = this.modalInputsData.coord.split(",");
             this.modalData.radioValue = 2;
             this.modalData.inputDataReady = false;
             this.modalData.aceptarButtonDisabledToggle = true;
@@ -126,31 +122,101 @@ const App = new Vue({
                 this.modalData.inputDataReady = true;
             }
         },
-        changeOnSelect(index) {
-            this.modalData.radioValue = 1;
-            this.selectListData.indexPath.push(index - 1);
-            this.modalData.aceptarButtonDisabledToggle = true;
-            if (this.selectListData.cityToggle) {
-                this.modalData.eraseButtonDisabledToggle = false;
-                this.selectListData.selectedItemIndex = 0;
-                this.selectListData.places = [];
-                this.selectListData.places.push(allMexico[this.selectListData.indexPath[0]].name + " > [SELECCIONA CIUDAD]");
-                for (const ciudad of allMexico[index - 1].cities) {
-                    this.selectListData.places.push(ciudad.name)
+        chartEraseButtonClick() {
+            this.chartSelectListData = {
+                disabledToggle: false,
+                selectToggle: true,
+                eraseButtonDisabledToggle: true,
+                selectedItemIndex: 0,
+                selectedItemsLabelsArr: [],
+                selectedItemsIdxsArr: [],
+                items: [
+                    "[SELECCIONA UN RANGO TEMPORAL]",
+                    "Por Día",
+                    "Por 7 Días",
+                    "Por 48 Hrs",
+                ]
+            }
+        },
+        addNewChart() {
+            this.myCharts.push({
+                setup: this.copyObj(this.chartSelectListData.selectedItemsIdxsArr),
+                chart: undefined,
+            })
+            this.chartEraseButtonClick();
+            console.log("this.myCharts_add", this.myCharts)
+            this.updateChartData(false);
+        },
+        changeOnChartSelect(index) {
+            this.chartSelectListData.selectedItemsIdxsArr.push(index);
+            this.chartSelectListData.selectedItemsLabelsArr.push(this.chartSelectListData.items[index]);
+            this.chartSelectListData.selectedItemIndex = 0;
+            if (this.chartSelectListData.selectToggle) {
+                this.chartSelectListData.eraseButtonDisabledToggle = false;
+                this.chartSelectListData.items = [];
+                switch (index) {
+                    case 1:
+                        this.chartSelectListData.items.push(this.chartSelectListData.selectedItemsLabelsArr[0] + " > [SELECCIONA DÍA Y RUBRO]");
+                        this.chartSelectListData.items.push("Hoy: (Temp) Max / Min / Ahora / S.T.");
+                        this.chartSelectListData.items.push("Hoy: (%) PoP / Humedad");
+                        this.chartSelectListData.items.push("Hoy: Velocidad del Viento");
+                        for (let i = 1; i < this.proximosDias.length; i++) {
+                            this.chartSelectListData.items.push(this.proximosDias[i] + ": (Temp)  Max / Min");
+                            this.chartSelectListData.items.push(this.proximosDias[i] + ": (%) PoP / Humedad");
+                            this.chartSelectListData.items.push(this.proximosDias[i] + ": Velocidad del Viento");
+                        }
+                        break;
+                    case 2:
+                        this.chartSelectListData.items.push(this.chartSelectListData.selectedItemsLabelsArr[0] + " > [SELECCIONA UN RUBRO]");
+                        this.chartSelectListData.items.push("(Temp) Max");
+                        this.chartSelectListData.items.push("(Temp) Min");
+                        this.chartSelectListData.items.push("PoP");
+                        this.chartSelectListData.items.push("Humedad");
+                        this.chartSelectListData.items.push("Velocidad del Viento");
+                        break;
+                    case 3:
+                        this.chartSelectListData.items.push(this.chartSelectListData.selectedItemsLabelsArr[0] + " > [SELECCIONA UN RUBRO]");
+                        this.chartSelectListData.items.push("Temp");
+                        this.chartSelectListData.items.push("PoP");
+                        this.chartSelectListData.items.push("Velocidad del Viento");
+                        break;
                 }
             } else {
-                const placePath = this.modalData.placePath = allMexico[this.selectListData.indexPath[0]].name + " > " +
-                    allMexico[this.selectListData.indexPath[0]].cities[this.selectListData.indexPath[1]].name;
-                this.selectListData.selectedItemIndex = 0;
-                this.selectListData.places = [placePath];
+                this.chartSelectListData.items = [this.chartSelectListData.selectedItemsLabelsArr[0] + " > " + this.chartSelectListData.selectedItemsLabelsArr[1]];
+                this.chartSelectListData.disabledToggle = true;
+            }
+            this.chartSelectListData.selectToggle = !this.chartSelectListData.selectToggle;
+        },
+        changeOnModalSelect(index) {
+            this.modalData.radioValue = 1;
+            this.modalSelectListData.indexPath.push(index - 1);
+            this.modalData.aceptarButtonDisabledToggle = true;
+            if (this.modalSelectListData.cityToggle) {
+                this.modalData.eraseButtonDisabledToggle = false;
+                this.modalSelectListData.selectedItemIndex = 0;
+                this.modalSelectListData.places = [];
+                this.modalSelectListData.places.push(allMexico[this.modalSelectListData.indexPath[0]].name + " > [SELECCIONA CIUDAD]");
+                for (const ciudad of allMexico[index - 1].cities) {
+                    this.modalSelectListData.places.push(ciudad.name)
+                }
+            } else {
+                const placePath = this.modalData.placePath = allMexico[this.modalSelectListData.indexPath[0]].name + " > " +
+                    allMexico[this.modalSelectListData.indexPath[0]].cities[this.modalSelectListData.indexPath[1]].name;
+                this.modalSelectListData.selectedItemIndex = 0;
+                this.modalSelectListData.places = [placePath];
                 this.modalData.selectListDisabledToggle = true;
                 this.modalData.aceptarButtonDisabledToggle = false;
-                this.modalData.selectListDataReady = true;
+                this.modalData.modalSelectListDataReady = true;
             }
-            this.selectListData.cityToggle = !this.selectListData.cityToggle
+            this.modalSelectListData.cityToggle = !this.modalSelectListData.cityToggle
         },
         deleteItem(index) {
             this.selectedItems.splice(index, 1);
+            this.updateChartData(true);
+        },
+        deleteItemChart(index) {
+            this.myCharts[index].chart.destroy()
+            this.myCharts.splice(index, 1);
             this.updateChartData(true);
         },
         moveItem(index, direction) {
@@ -167,12 +233,12 @@ const App = new Vue({
         editItem(index) {
             this.initModal(2);
             const op1Selected = this.selectedItems[index].selectedOp == 1;
-            this.inputsData.coord = op1Selected ? "" : this.selectedItems[index].namesPathArr[1]
-            this.inputsData.alias = op1Selected ? "" : this.selectedItems[index].namesPathArr[0]
+            this.modalInputsData.coord = op1Selected ? "" : this.selectedItems[index].namesPathArr[1]
+            this.modalInputsData.alias = op1Selected ? "" : this.selectedItems[index].namesPathArr[0]
             this.modalData = {
                 title: "Edita la ubicación",
                 itemIndex: index,
-                selectListDataReady: op1Selected,
+                modalSelectListDataReady: op1Selected,
                 inputDataReady: !op1Selected,
                 selectListDisabledToggle: op1Selected,
                 aceptarButtonDisabledToggle: false,
@@ -180,8 +246,8 @@ const App = new Vue({
                 radioValue: op1Selected ? 1 : 2
             }
             if (op1Selected) {
-                this.selectListData.places = [];
-                this.selectListData.places.push(this.selectedItems[index].namesPathArr[0] + " > " +
+                this.modalSelectListData.places = [];
+                this.modalSelectListData.places.push(this.selectedItems[index].namesPathArr[0] + " > " +
                     this.selectedItems[index].namesPathArr[1])
             }
         },
@@ -192,13 +258,11 @@ const App = new Vue({
             console.log("getWeather", await getCompleteWeatherData(this.selectedItems, -1, "metric"))
         },
         async updateWeatherData(wantedIndex, wantedUnits) {
-            console.log("updateWeatherData", this.selectedItems)
             if (wantedIndex < 0 || this.selectedItems[wantedIndex] == undefined) {
                 for (let i = 0; i < this.selectedItems.length; i++) this.selectedItems[i].status = "PENDING";
                 this.itemsToShow = [];
             } else this.selectedItems[wantedIndex].status = "PENDING";
             let weatherData = await getCompleteWeatherData(this.selectedItems, wantedIndex, wantedUnits);
-            console.log("updateWeatherData", weatherData)
             let isOneItem = !weatherData.isReturnAllMode;
             for (let i = 0; i < weatherData.dataArray.length; i++) {
                 if (weatherData.dataArray[i] != undefined) {
@@ -231,8 +295,20 @@ const App = new Vue({
                     }
                 };
             };
-            if (this.myChart != null) this.myChart.destroy();
-            this.myChart = new Chart('myChart', getMyChart(this.itemsToShow, 3));
+            if (this.myCharts[0] == undefined) {
+                this.myCharts.push({
+                    setup: [1, 1],
+                    chart: undefined
+                });
+            }
+            for (let i = 0; i < this.myCharts.length; i++) {
+                if (this.myCharts[i] != undefined) {
+                    //this.myCharts[i].setup = [1, 1];
+                    console.log("updateChartData", i, this.myCharts[i].setup);
+                    if (this.myCharts[i].chart != undefined) this.myCharts[i].chart.destroy();
+                    this.myCharts[i].chart = new Chart('myChart' + i, getMyChart(this.itemsToShow, this.myCharts[i].setup));
+                }
+            }
         },
     },
     watch: {},
