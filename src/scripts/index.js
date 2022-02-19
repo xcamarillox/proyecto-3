@@ -20,6 +20,7 @@ const App = new Vue({
     data: () => ({
         etiquetasLugares: null,
         proximosDias: null,
+        windDirection: null,
         myCharts: [],
         modalData: {},
         chartSelectListData: {},
@@ -29,9 +30,24 @@ const App = new Vue({
         itemsToShow: [],
     }),
     created() {
+        this.windDirection = getWindDirectionLabel;
         this.etiquetasLugares = getPlaceNameLabel;
         this.proximosDias = getNextDaysLabels(-1, 8);
         this.chartEraseButtonClick();
+        let myData = JSON.parse(window.localStorage.getItem("mySelectedItems"));
+        if (myData != undefined) {
+            this.selectedItems = myData;
+            myData = JSON.parse(window.localStorage.getItem("myChartsSetupArr"));
+            if (myData != undefined) {
+                for (let i = 0; i < myData.length; i++) {
+                    this.myCharts.push({
+                        setup: this.copyObj(myData[i]),
+                        chart: undefined,
+                    })
+                }
+            }
+            this.updateWeatherData(-1, 'metric');
+        }
     },
     methods: {
         copyObj(obj) {
@@ -86,7 +102,7 @@ const App = new Vue({
         },
         clickOK() {
             let cacheArr = [];
-            //******PARAMS ON selectedItem******//
+            //******PARAMS ON selectedItems******//
             let selectedItem = {
                 selectedOp: 0,
                 coord: "",
@@ -106,6 +122,7 @@ const App = new Vue({
             selectedItem.selectedOp = this.modalData.radioValue;
             selectedItem.namesPathArr = cacheArr;
             this.selectedItems.splice(this.modalData.itemIndex, 1, selectedItem);
+
             this.updateWeatherData(this.modalData.itemIndex, "metric");
         },
         changeOnInput() {
@@ -131,7 +148,7 @@ const App = new Vue({
                 selectedItemsLabelsArr: [],
                 selectedItemsIdxsArr: [],
                 items: [
-                    "[SELECCIONA UN RANGO TEMPORAL]",
+                    "[SELECCIONA DÍA O RANGO TEMPORAL]",
                     "El Día de Hoy",
                     "El Día " + this.proximosDias[1],
                     "El Día " + this.proximosDias[2],
@@ -151,7 +168,6 @@ const App = new Vue({
                 chart: undefined,
             })
             this.chartEraseButtonClick();
-            console.log("this.myCharts_add", this.myCharts)
             this.updateChartData(false);
         },
         changeOnChartSelect(index) {
@@ -161,31 +177,29 @@ const App = new Vue({
             if (this.chartSelectListData.selectToggle) {
                 this.chartSelectListData.eraseButtonDisabledToggle = false;
                 this.chartSelectListData.items = [];
+                this.chartSelectListData.items.push(this.chartSelectListData.selectedItemsLabelsArr[0] + " > [SELECCIONA UN RUBRO]");
                 switch (index) {
                     case 9:
-                        this.chartSelectListData.items.push(this.chartSelectListData.selectedItemsLabelsArr[0] + " > [SELECCIONA UN RUBRO]");
-                        this.chartSelectListData.items.push("Temperatura Max - [°C]");
-                        this.chartSelectListData.items.push("Temperatura Min - [°C]");
-                        this.chartSelectListData.items.push("PoP - [%]");
-                        this.chartSelectListData.items.push("Humedad - [%]");
-                        this.chartSelectListData.items.push("Velocidad del Viento - [km/h]");
+                        this.chartSelectListData.items.push("Temperatura Máxima (Max)");
+                        this.chartSelectListData.items.push("Temperatura Mínima (Min)");
+                        this.chartSelectListData.items.push("PoP");
+                        this.chartSelectListData.items.push("Humedad");
+                        this.chartSelectListData.items.push("Velocidad del Viento");
                         break;
                     case 10:
-                        this.chartSelectListData.items.push(this.chartSelectListData.selectedItemsLabelsArr[0] + " > [SELECCIONA UN RUBRO]");
-                        this.chartSelectListData.items.push("Temperatura - [°C]");
-                        this.chartSelectListData.items.push("PoP - [%]");
-                        this.chartSelectListData.items.push("Velocidad del Viento - [km/h]");
+                        this.chartSelectListData.items.push("Temperatura (Temp)");
+                        this.chartSelectListData.items.push("PoP");
+                        this.chartSelectListData.items.push("Velocidad del Viento");
                         break;
                     default:
-                        this.chartSelectListData.items.push(this.chartSelectListData.selectedItemsLabelsArr[0] + " > [SELECCIONA DÍA Y RUBRO]");
-                        if (index == 1) this.chartSelectListData.items.push("Temperatura: Max / Min / Ahora / S.T. - [°C]");
-                        else this.chartSelectListData.items.push("Temperatura:  Max / Min - [°C]");
-                        this.chartSelectListData.items.push("PoP / Humedad - [%]");
-                        this.chartSelectListData.items.push("Velocidad del Viento - [km/h]");
+                        if (index == 1) this.chartSelectListData.items.push("Temperatura: Max / Min / Ahora / S.T.");
+                        else this.chartSelectListData.items.push("Temperatura:  Max / Min");
+                        this.chartSelectListData.items.push("PoP / Humedad");
+                        this.chartSelectListData.items.push("Velocidad del Viento");
                         break;
                 }
             } else {
-                this.chartSelectListData.items = [this.chartSelectListData.selectedItemsLabelsArr[0] + " > " + this.chartSelectListData.selectedItemsLabelsArr[1]];
+                this.chartSelectListData.items = [this.chartSelectListData.selectedItemsLabelsArr[0] + " > " + this.chartSelectListData.selectedItemsLabelsArr[1] + " > Presiona el botón +"];
                 this.chartSelectListData.disabledToggle = true;
             }
             this.chartSelectListData.selectToggle = !this.chartSelectListData.selectToggle;
@@ -215,6 +229,7 @@ const App = new Vue({
         },
         deleteItem(index) {
             this.selectedItems.splice(index, 1);
+            this.saveSelectedItems();
             this.updateChartData(true);
         },
         deleteItemChart(index) {
@@ -231,6 +246,7 @@ const App = new Vue({
             let cache = this.copyObj(this.selectedItems[index])
             this.selectedItems.splice(index, 1, this.copyObj(this.selectedItems[expression]));
             this.selectedItems.splice(expression, 1, cache);
+            this.saveSelectedItems();
             this.updateChartData(true);
         },
         editItem(index) {
@@ -257,9 +273,6 @@ const App = new Vue({
         itemColorStyleFunc(index) {
             return "color:" + indexToColor(index) + ";"
         },
-        async getWeather() {
-            console.log("getWeather", await getCompleteWeatherData(this.selectedItems, -1, "metric"))
-        },
         async updateWeatherData(wantedIndex, wantedUnits) {
             if (wantedIndex < 0 || this.selectedItems[wantedIndex] == undefined) {
                 for (let i = 0; i < this.selectedItems.length; i++) this.selectedItems[i].status = "PENDING";
@@ -285,8 +298,10 @@ const App = new Vue({
             if (this.modalData.title == "Edita la ubicación") this.updateChartData(true)
             else this.updateChartData(false);
         },
-        windDirection(windDeg) {
-            return getWindDirectionLabel(windDeg)
+        saveSelectedItems() {
+            let cacheSelectedItems = this.copyObj(this.selectedItems)
+            cacheSelectedItems.data = [undefined];
+            window.localStorage.setItem("mySelectedItems", JSON.stringify(cacheSelectedItems))
         },
         updateChartData(isRescanMode) {
             if (isRescanMode) {
@@ -304,14 +319,15 @@ const App = new Vue({
                     chart: undefined
                 });
             }
+            let myData = [];
             for (let i = 0; i < this.myCharts.length; i++) {
                 if (this.myCharts[i] != undefined) {
-                    //this.myCharts[i].setup = [1, 1];
-                    console.log("updateChartData", i, this.myCharts[i].setup);
+                    if (this.myCharts[i].setup != undefined) myData.push(this.myCharts[i].setup);
                     if (this.myCharts[i].chart != undefined) this.myCharts[i].chart.destroy();
                     this.myCharts[i].chart = new Chart('myChart' + i, getMyChart(this.itemsToShow, this.myCharts[i].setup));
                 }
             }
+            window.localStorage.setItem("myChartsSetupArr", JSON.stringify(myData));
         },
     },
     watch: {},

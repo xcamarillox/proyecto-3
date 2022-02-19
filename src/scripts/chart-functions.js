@@ -12,7 +12,7 @@ const getMyChart = (itemsArr, mode) => {
                 ["current", "feels_like"],
             ],
             dataSetLabel: ["Max", "Min", "Ahora", "S.T."],
-            title: "Temperatura Max, Min, Ahora y S.T: Hoy - [°C]"
+            title: "Temperatura Max, Min, Ahora y S.T: Hoy [°C]"
         })
         else if (mode[0] != 1 && mode[1] == 1) return barChartMultipleDataset(itemsArr, {
             pathArr: [
@@ -20,7 +20,7 @@ const getMyChart = (itemsArr, mode) => {
                 ["daily", day, "temp", "min"],
             ],
             dataSetLabel: ["Max", "Min"],
-            title: `Temperatura Max y Min: ${getNextDaysLabels(day)} - [°C]`
+            title: `Temperatura Max y Min: ${getNextDaysLabels(day)} [°C]`
         })
         else if (mode[1] == 2) return barChartMultipleDataset(itemsArr, {
             pathArr: [
@@ -28,48 +28,48 @@ const getMyChart = (itemsArr, mode) => {
                 ["daily", day, "humidity"],
             ],
             dataSetLabel: ["PoP", "Humedad"],
-            title: `PoP y Humedad: ${day == 0 ? "Hoy" : getNextDaysLabels(day)} - [%]`
+            title: `PoP y Humedad: ${day == 0 ? "Hoy" : getNextDaysLabels(day)} [%]`
         })
         else if (mode[1] == 3) return barChartMultipleDataset(itemsArr, {
             pathArr: [
                 ["daily", day, "wind_speed"],
             ],
             dataSetLabel: ["Velocidad del Viento"],
-            title: `Velocidad del Viento: ${day == 0 ? "Hoy" : getNextDaysLabels(day)} - [km/h]`
+            title: `Velocidad del Viento: ${day == 0 ? "Hoy" : getNextDaysLabels(day)} [km/h]`
         })
     } else if (mode[0] == 9) { // 7 Días
         if (mode[1] == 1) return lineChartMultipleDataset(itemsArr, {
             pathArr: ["daily", "temp", "max"],
-            title: "Pronóstico a 7 días de la Temperatura Max - [°C]"
+            title: "Pronóstico a 7 días de la Temperatura Max [°C]"
         });
         if (mode[1] == 2) return lineChartMultipleDataset(itemsArr, {
             pathArr: ["daily", "temp", "min"],
-            title: "Pronóstico a 7 días de la Temperatura Min - [°C]"
+            title: "Pronóstico a 7 días de la Temperatura Min [°C]"
         });
         if (mode[1] == 3) return lineChartMultipleDataset(itemsArr, {
             pathArr: ["daily", "pop"],
-            title: "Pronóstico a 7 días de PoP - [%]"
+            title: "Pronóstico a 7 días de Probabilidad de Precipitación (PoP) [%]"
         });
         if (mode[1] == 4) return lineChartMultipleDataset(itemsArr, {
             pathArr: ["daily", "humidity"],
-            title: "Pronóstico a 7 días de la Humedad - [%]"
+            title: "Pronóstico a 7 días de la Humedad [%]"
         });
         if (mode[1] == 5) return lineChartMultipleDataset(itemsArr, {
             pathArr: ["daily", "wind_speed"],
-            title: "Pronóstico a 7 días la Velocidad del Viento - [km/h]"
+            title: "Pronóstico a 7 días la Velocidad del Viento [km/h]"
         });
     } else if (mode[0] == 10) { // 48hr
         if (mode[1] == 1) return lineChartMultipleDataset(itemsArr, {
             pathArr: ["hourly", "temp"],
-            title: "Pronóstico a 48 horas de la Temperatura - [°C]"
+            title: "Pronóstico a 48 horas de la Temperatura [°C]"
         });
         if (mode[1] == 2) return lineChartMultipleDataset(itemsArr, {
             pathArr: ["hourly", "pop"],
-            title: "Pronóstico a 48 horas de PoP - [%]"
+            title: "Pronóstico a 48 horas de Probabilidad de Precipitación (PoP) [%]"
         });
         if (mode[1] == 3) return lineChartMultipleDataset(itemsArr, {
             pathArr: ["hourly", "wind_speed"],
-            title: "Pronóstico a 48 horas de la Velocidad del Viento - [km/h]"
+            title: "Pronóstico a 48 horas de la Velocidad del Viento [km/h]"
         });
     }
 }
