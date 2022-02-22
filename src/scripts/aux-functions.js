@@ -102,4 +102,21 @@ const getWindDirectionLabel = (windDeg) => {
     */
 }
 
-export { indexToColor, getNextDaysLabels, getWindDirectionLabel, getPlaceNameLabel }
+const getWeatherClass = (code) => {
+    let icon = parseInt(code.substring(0, 2));
+    let dayOrNigth = code.substring(2, 3);
+    if (icon == 1 && dayOrNigth == "d") return "fa-solid fa-sun"
+    else if (icon == 1 && dayOrNigth == "n") return "fa-solid fa-moon"
+    else if (icon == 2 && dayOrNigth == "d") return "fa-solid fa-cloud-sun"
+    else if (icon == 2 && dayOrNigth == "n") return "fa-solid fa-cloud-moon"
+    else if (icon == 3) return "fa-solid fa-cloud"
+    else if (icon == 4) return "fa-solid fa-cloud"
+    else if (icon == 9) return "fa-solid fa-cloud-rain"
+    else if (icon == 10) return "fa-solid fa-cloud-rain"
+    else if (icon == 11) return "fa-solid fa-bolt"
+    else if (icon == 13) return "fa-solid fa-snowflake"
+    else if (icon == 50) return "fa-solid fa-water"
+    else return "fa-solid fa-sun"
+}
+
+export { indexToColor, getNextDaysLabels, getWindDirectionLabel, getPlaceNameLabel, getWeatherClass }

@@ -92,7 +92,7 @@ header span {
 
 .grafica {
     /* margin: 100px auto */
-    margin: 20px auto 50px
+    margin: 50px auto 50px
 }
 
 .icons {
@@ -114,4 +114,90 @@ header span {
 
 .chart-rel>a:hover {
     cursor: pointer;
+}
+
+.hoy-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+}
+
+.hoy-item {
+    min-width: 300px;
+    width: calc(30% - 20px);
+    height: 250px;
+    margin: 20px;
+    border-radius: 20px;
+}
+
+.hoy-item.item {
+    display: inline-grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 45% 55%;
+}
+
+.hoy-item.item>div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hoy-item.item>:nth-child(1) {
+    grid-area: 1 / 1 / 1 / 1;
+    border-radius: 20px 0px 0px 0px;
+    background-color: lightskyblue;
+    padding: 20px;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.hoy-item.item>:nth-child(2) {
+    grid-area: 1 / 2 / 1 / 2;
+    border-radius: 0px 20px 0px 0px;
+    background-color: lightskyblue;
+}
+
+.hoy-item.item>:nth-child(3) {
+    grid-area: 2 / 1 / 2 / 1;
+    font-size: 60px;
+    font-weight: 700;
+    border-radius: 0px 0px 0px 20px;
+    background-color: whitesmoke;
+}
+
+.hoy-item.item>:nth-child(4) {
+    grid-area: 2 / 2 / 2 / 2;
+    border-radius: 0px 0px 20px 0px;
+    background-color: whitesmoke;
+    height: 100%;
+}
+
+.centered-container {
+    text-align: left;
+    font-size: smaller;
+    width: calc(100% - 40px);
+}
+
+.centered-container table {
+    width: 100%;
+}
+
+.hoy-item.add {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: lightgray;
+    font-size: 50px;
+    color: white;
+}
+
+.hoy-item.add:hover {
+    cursor: pointer;
+}
+
+i.hoy {
+    font-size: 50px;
+    color: white;
 }

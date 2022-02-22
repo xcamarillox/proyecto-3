@@ -12,7 +12,8 @@ import {
     indexToColor,
     getNextDaysLabels,
     getPlaceNameLabel,
-    getWindDirectionLabel
+    getWindDirectionLabel,
+    getWeatherClass
 } from "./aux-functions.js";
 
 const App = new Vue({
@@ -21,6 +22,7 @@ const App = new Vue({
         etiquetasLugares: null,
         proximosDias: null,
         windDirection: null,
+        getWeaterIconClass: null,
         myCharts: [],
         modalData: {},
         chartSelectListData: {},
@@ -33,6 +35,7 @@ const App = new Vue({
         this.windDirection = getWindDirectionLabel;
         this.etiquetasLugares = getPlaceNameLabel;
         this.proximosDias = getNextDaysLabels(-1, 8);
+        this.getWeatherIconClass = getWeatherClass;
         this.chartEraseButtonClick();
         let myData = JSON.parse(window.localStorage.getItem("mySelectedItems"));
         if (myData != undefined) {
@@ -53,6 +56,28 @@ const App = new Vue({
         copyObj(obj) {
             return JSON.parse(JSON.stringify(obj));
         },
+        itemColorStyleFunc(index) {
+            return "color:" + indexToColor(index) + ";"
+        },
+        saveSelectedItems() {
+            let cacheSelectedItems = this.copyObj(this.selectedItems)
+            for (let i = 0; i < cacheSelectedItems.length; i++) cacheSelectedItems[i].data = [];
+            window.localStorage.setItem("mySelectedItems", JSON.stringify(cacheSelectedItems))
+        },
+        changeOnRadio() {
+            if (this.modalData.radioValue == 1 && this.modalData.modalSelectListDataReady ||
+                this.modalData.radioValue == 2 && this.modalData.inputDataReady)
+                this.modalData.aceptarButtonDisabledToggle = false;
+            else this.modalData.aceptarButtonDisabledToggle = true;
+        },
+        addNewChart() {
+            this.myCharts.push({
+                setup: this.copyObj(this.chartSelectListData.selectedItemsIdxsArr),
+                chart: undefined,
+            })
+            this.chartEraseButtonClick();
+            this.updateChartData(false);
+        },
         initModal(modalMode) {
             let title, inputDataReady, itemIndex;
             this.modalSelectListData = {
@@ -62,9 +87,7 @@ const App = new Vue({
                 indexPath: []
             }
             this.modalSelectListData.places.push("[SELECCIONA UN ESTADO]")
-            for (const state of allMexico) {
-                this.modalSelectListData.places.push(state.name)
-            }
+            for (const state of allMexico) this.modalSelectListData.places.push(state.name)
             if (this.modalData.hasOwnProperty('title')) title = this.modalData.title;
             if (this.modalData.hasOwnProperty('inputDataReady')) inputDataReady = this.modalData.inputDataReady;
             if (this.modalData.hasOwnProperty('itemIndex')) itemIndex = this.modalData.itemIndex;
@@ -93,12 +116,6 @@ const App = new Vue({
                     alias: ""
                 }
             }
-        },
-        changeOnRadio() {
-            if (this.modalData.radioValue == 1 && this.modalData.modalSelectListDataReady ||
-                this.modalData.radioValue == 2 && this.modalData.inputDataReady)
-                this.modalData.aceptarButtonDisabledToggle = false;
-            else this.modalData.aceptarButtonDisabledToggle = true;
         },
         clickOK() {
             let cacheArr = [];
@@ -162,14 +179,6 @@ const App = new Vue({
                 ]
             }
         },
-        addNewChart() {
-            this.myCharts.push({
-                setup: this.copyObj(this.chartSelectListData.selectedItemsIdxsArr),
-                chart: undefined,
-            })
-            this.chartEraseButtonClick();
-            this.updateChartData(false);
-        },
         changeOnChartSelect(index) {
             this.chartSelectListData.selectedItemsIdxsArr.push(index);
             this.chartSelectListData.selectedItemsLabelsArr.push(this.chartSelectListData.items[index]);
@@ -213,9 +222,7 @@ const App = new Vue({
                 this.modalSelectListData.selectedItemIndex = 0;
                 this.modalSelectListData.places = [];
                 this.modalSelectListData.places.push(allMexico[this.modalSelectListData.indexPath[0]].name + " > [SELECCIONA CIUDAD]");
-                for (const ciudad of allMexico[index - 1].cities) {
-                    this.modalSelectListData.places.push(ciudad.name)
-                }
+                for (const ciudad of allMexico[index - 1].cities) this.modalSelectListData.places.push(ciudad.name)
             } else {
                 const placePath = this.modalData.placePath = allMexico[this.modalSelectListData.indexPath[0]].name + " > " +
                     allMexico[this.modalSelectListData.indexPath[0]].cities[this.modalSelectListData.indexPath[1]].name;
@@ -270,9 +277,6 @@ const App = new Vue({
                     this.selectedItems[index].namesPathArr[1])
             }
         },
-        itemColorStyleFunc(index) {
-            return "color:" + indexToColor(index) + ";"
-        },
         async updateWeatherData(wantedIndex, wantedUnits) {
             if (wantedIndex < 0 || this.selectedItems[wantedIndex] == undefined) {
                 for (let i = 0; i < this.selectedItems.length; i++) this.selectedItems[i].status = "PENDING";
@@ -298,11 +302,6 @@ const App = new Vue({
             if (this.modalData.title == "Edita la ubicación") this.updateChartData(true)
             else this.updateChartData(false);
         },
-        saveSelectedItems() {
-            let cacheSelectedItems = this.copyObj(this.selectedItems)
-            cacheSelectedItems.data = [undefined];
-            window.localStorage.setItem("mySelectedItems", JSON.stringify(cacheSelectedItems))
-        },
         updateChartData(isRescanMode) {
             if (isRescanMode) {
                 this.itemsToShow = [];
@@ -327,7 +326,9 @@ const App = new Vue({
                     this.myCharts[i].chart = new Chart('myChart' + i, getMyChart(this.itemsToShow, this.myCharts[i].setup));
                 }
             }
+            this.saveSelectedItems()
             window.localStorage.setItem("myChartsSetupArr", JSON.stringify(myData));
+            console.log(this.itemsToShow)
         },
     },
     watch: {},

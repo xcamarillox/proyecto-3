@@ -48,18 +48,62 @@
                         <button type="button" class="btn btn-secondary nav-item" v-if="selectedItems.length<6" @click="initModal(1)" data-bs-toggle="modal" data-bs-target="#myModal">Añadir Ubicación...</button>
                     </div>
                 </nav>
-                <!-- ********************** MAIN ********************** -->
+                <!-- ********************** HOY ********************** -->
                 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 ">
-                    <!-- <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom ">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom ">
                         <h1 class="h2 ">Hoy</h1>
-                        <div class="btn-toolbar mb-2 mb-md-0 ">
-                            <div class="btn-group me-2 ">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Hoy</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Gráfica</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Tabla</button>
+                    </div>
+                    <div :class="selectedItems.length > 0 ? 'hoy-container' : ''">
+                        <div class="hoy-item item" v-for="(item, index) in itemsToShow" :key="index">
+                            <div>
+                                <!-- lugar -->
+                                {{etiquetasLugares(itemsToShow, index)}}
+                            </div>
+                            <div>
+                                <!-- nubes -->
+                                <i :class="getWeatherIconClass(item.data.current.weather[0].icon) + ' hoy'"></i>
+                            </div>
+                            <div>
+                                <!-- temp -->
+                                {{Math.floor(item.data.current.temp)}}°C
+                            </div>
+                            <div>
+                                <!-- det -->
+                                <div class="centered-container">
+                                    <table>
+                                        <tr>
+                                            <th colspan="2">Detalles</th>
+                                            <!-- <th></th> -->
+                                        </tr>
+                                        <tr>
+                                            <td>S.T.</td>
+                                            <td>{{Math.floor(item.data.current.feels_like)}}°C</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Viento</td>
+                                            <td>{{item.data.current.wind_speed}} km/h</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Humedad</td>
+                                            <td>{{item.data.current.humidity}}%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>PoP</td>
+                                            <td>{{item.data.daily[0].pop * 100}}%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Presión</td>
+                                            <td>{{item.data.current.pressure}} hPa</td>
+                                        </tr>
+                                    </table>
+
+                                </div>
                             </div>
                         </div>
-                    </div> -->
+                        <div class="hoy-item add" v-if="selectedItems.length<6" @click="initModal(1)" data-bs-toggle="modal" data-bs-target="#myModal">
+                            <i class="fa-solid fa-circle-plus"></i>
+                        </div>
+                    </div>
                     <!-- ********************** CHART ********************** -->
                     <div class="grafica" v-show="itemsToShow.length > 0">
                         <h2 class="border-bottom">Gráficas</h2>
