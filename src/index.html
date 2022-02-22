@@ -172,7 +172,7 @@
                                 </tr>
                                 <tr>
                                     <th scope="col ">Max / Min [°C]</th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[0].temp.max}} / {{item.data.daily[0].temp.min}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.current.weather[0].icon)"></i> {{item.data.daily[0].temp.max}} / {{item.data.daily[0].temp.min}}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col ">Ahora / Sensación Térmica (S.T.) [°C]</th>
@@ -186,13 +186,17 @@
                                     <th scope="col ">Dirección y Velocidad del Viento [km/h]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{windDirection(item.data.daily[0].wind_deg)}} {{item.data.daily[0].wind_speed}}</td>
                                 </tr>
+                                <tr>
+                                    <th scope="col ">Presión [hPa]</th>
+                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.current.pressure}}</td>
+                                </tr>
                                 <!-- ***************DIA1*************** -->
                                 <tr>
                                     <th :colspan="selectedItems.length + 1" class="text-center">{{proximosDias[1]}}</th>
                                 </tr>
                                 <tr>
                                     <th scope="col ">Max / Min [°C]</th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[1].temp.max}} / {{item.data.daily[1].temp.min}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.daily[1].weather[0].icon)"></i> {{item.data.daily[1].temp.max}} / {{item.data.daily[1].temp.min}}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad [%]</th>
@@ -202,13 +206,17 @@
                                     <th scope="col ">Dirección y Velocidad del Viento [km/h]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{windDirection(item.data.daily[1].wind_deg)}} {{item.data.daily[1].wind_speed}}</td>
                                 </tr>
+                                <tr>
+                                    <th scope="col ">Presión [hPa]</th>
+                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[1].pressure}}</td>
+                                </tr>
                                 <!-- ***************DIA2*************** -->
                                 <tr>
                                     <th :colspan="selectedItems.length + 1" class="text-center">{{proximosDias[2]}}</th>
                                 </tr>
                                 <tr>
                                     <th scope="col ">Max / Min [°C]</th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[2].temp.max}} / {{item.data.daily[2].temp.min}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.daily[2].weather[0].icon)"></i> {{item.data.daily[2].temp.max}} / {{item.data.daily[2].temp.min}}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad [%]</th>
@@ -218,13 +226,17 @@
                                     <th scope="col ">Dirección y Velocidad del Viento [km/h]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{windDirection(item.data.daily[2].wind_deg)}} {{item.data.daily[2].wind_speed}}</td>
                                 </tr>
+                                <tr>
+                                    <th scope="col ">Presión [hPa]</th>
+                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[2].pressure}}</td>
+                                </tr>
                                 <!-- ***************DIA3*************** -->
                                 <tr>
                                     <th :colspan="selectedItems.length + 1" class="text-center">{{proximosDias[3]}}</th>
                                 </tr>
                                 <tr>
                                     <th scope="col ">Max / Min [°C]</th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[3].temp.max}} / {{item.data.daily[3].temp.min}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.daily[3].weather[0].icon)"></i> {{item.data.daily[3].temp.max}} / {{item.data.daily[3].temp.min}}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad [%]</th>
@@ -234,13 +246,17 @@
                                     <th scope="col ">Dirección y Velocidad del Viento [km/h]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{windDirection(item.data.daily[3].wind_deg)}} {{item.data.daily[3].wind_speed}}</td>
                                 </tr>
+                                <tr>
+                                    <th scope="col ">Presión [hPa]</th>
+                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[3].pressure}}</td>
+                                </tr>
                                 <!-- ***************DIA4*************** -->
                                 <tr>
                                     <th :colspan="selectedItems.length + 1" class="text-center">{{proximosDias[4]}}</th>
                                 </tr>
                                 <tr>
                                     <th scope="col ">Max / Min [°C]</th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[4].temp.max}} / {{item.data.daily[4].temp.min}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.daily[4].weather[0].icon)"></i> {{item.data.daily[4].temp.max}} / {{item.data.daily[4].temp.min}}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad [%]</th>
@@ -250,13 +266,17 @@
                                     <th scope="col ">Dirección y Velocidad del Viento [km/h]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{windDirection(item.data.daily[4].wind_deg)}} {{item.data.daily[4].wind_speed}}</td>
                                 </tr>
+                                <tr>
+                                    <th scope="col ">Presión [hPa]</th>
+                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[4].pressure}}</td>
+                                </tr>
                                 <!-- ***************DIA5*************** -->
                                 <tr>
                                     <th :colspan="selectedItems.length + 1" class="text-center">{{proximosDias[5]}}</th>
                                 </tr>
                                 <tr>
                                     <th scope="col ">Max / Min [°C]</th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[5].temp.max}} / {{item.data.daily[5].temp.min}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.daily[5].weather[0].icon)"></i> {{item.data.daily[5].temp.max}} / {{item.data.daily[5].temp.min}}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad [%]</th>
@@ -266,13 +286,17 @@
                                     <th scope="col ">Dirección y Velocidad del Viento [km/h]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{windDirection(item.data.daily[5].wind_deg)}} {{item.data.daily[5].wind_speed}}</td>
                                 </tr>
+                                <tr>
+                                    <th scope="col ">Presión [hPa]</th>
+                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[5].pressure}}</td>
+                                </tr>
                                 <!-- ***************DIA6*************** -->
                                 <tr>
                                     <th :colspan="selectedItems.length + 1" class="text-center">{{proximosDias[6]}}</th>
                                 </tr>
                                 <tr>
                                     <th scope="col ">Max / Min [°C]</th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[6].temp.max}} / {{item.data.daily[6].temp.min}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.daily[6].weather[0].icon)"></i> {{item.data.daily[6].temp.max}} / {{item.data.daily[6].temp.min}}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad [%]</th>
@@ -282,13 +306,17 @@
                                     <th scope="col ">Dirección y Velocidad del Viento [km/h]</th>
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{windDirection(item.data.daily[6].wind_deg)}} {{item.data.daily[6].wind_speed}}</td>
                                 </tr>
+                                <tr>
+                                    <th scope="col ">Presión [hPa]</th>
+                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[6].pressure}}</td>
+                                </tr>
                                 <!-- ***************DIA7*************** -->
                                 <tr>
                                     <th :colspan="selectedItems.length + 1" class="text-center">{{proximosDias[7]}}</th>
                                 </tr>
                                 <tr>
                                     <th scope="col ">Max / Min [°C]</th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[7].temp.max}} / {{item.data.daily[7].temp.min}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.daily[7].weather[0].icon)"></i> {{item.data.daily[7].temp.max}} / {{item.data.daily[7].temp.min}}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad [%]</th>
@@ -299,247 +327,299 @@
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{windDirection(item.data.daily[7].wind_deg)}} {{item.data.daily[7].wind_speed}}</td>
                                 </tr>
                                 <tr>
-                                    <th :colspan="selectedItems.length + 1" class="text-center">Pronóstico a 48 horas [Temp (°C) / PoP (%) / Viento (km/h)]</th>
+                                    <th scope="col ">Presión [hPa]</th>
+                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[7].pressure}}</td>
+                                </tr>
+                                <tr>
+                                    <th :colspan="selectedItems.length + 1" class="text-center">Pronóstico a 48 horas [Temp (°C) / PoP (%) / Viento (km/h)] / Presión (hPa)</th>
                                 </tr>
                                 <!-- ***************1HR*************** -->
                                 <tr>
                                     <th scope="col ">1 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[0].temp}} / {{item.data.hourly[0].pop * 100}}% / {{windDirection(item.data.hourly[0].wind_deg)}} {{item.data.hourly[0].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[0].weather[0].icon)"></i> {{item.data.hourly[0].temp}} / {{item.data.hourly[0].pop * 100}}% / {{windDirection(item.data.hourly[0].wind_deg)}} {{item.data.hourly[0].wind_speed}}
+                                        / {{item.data.hourly[0].pressure}}</td>
                                 </tr>
                                 <!-- ***************2HR*************** -->
                                 <tr>
                                     <th scope="col ">2 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[1].temp}} / {{item.data.hourly[1].pop * 100}}% / {{windDirection(item.data.hourly[1].wind_deg)}} {{item.data.hourly[1].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[1].weather[0].icon)"></i> {{item.data.hourly[1].temp}} / {{item.data.hourly[1].pop * 100}}% / {{windDirection(item.data.hourly[1].wind_deg)}} {{item.data.hourly[1].wind_speed}}
+                                        / {{item.data.hourly[1].pressure}}</td>
                                 </tr>
                                 <!-- ***************3HR*************** -->
                                 <tr>
                                     <th scope="col ">3 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[2].temp}} / {{item.data.hourly[2].pop * 100}}% / {{windDirection(item.data.hourly[2].wind_deg)}} {{item.data.hourly[2].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[2].weather[0].icon)"></i> {{item.data.hourly[2].temp}} / {{item.data.hourly[2].pop * 100}}% / {{windDirection(item.data.hourly[2].wind_deg)}} {{item.data.hourly[2].wind_speed}}
+                                        / {{item.data.hourly[2].pressure}}</td>
                                 </tr>
                                 <!-- ***************4HR*************** -->
                                 <tr>
                                     <th scope="col ">4 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[3].temp}} / {{item.data.hourly[3].pop * 100}}% / {{windDirection(item.data.hourly[3].wind_deg)}} {{item.data.hourly[3].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[2].weather[0].icon)"></i> {{item.data.hourly[3].temp}} / {{item.data.hourly[3].pop * 100}}% / {{windDirection(item.data.hourly[3].wind_deg)}} {{item.data.hourly[3].wind_speed}}
+                                        / {{item.data.hourly[3].pressure}}</td>
                                 </tr>
                                 <!-- ***************5HR*************** -->
                                 <tr>
                                     <th scope="col ">5 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[4].temp}} / {{item.data.hourly[4].pop * 100}}% / {{windDirection(item.data.hourly[4].wind_deg)}} {{item.data.hourly[4].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[4].weather[0].icon)"></i> {{item.data.hourly[4].temp}} / {{item.data.hourly[4].pop * 100}}% / {{windDirection(item.data.hourly[4].wind_deg)}} {{item.data.hourly[4].wind_speed}}
+                                        / {{item.data.hourly[4].pressure}}</td>
                                 </tr>
                                 <!-- ***************6HR*************** -->
                                 <tr>
                                     <th scope="col ">6 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[5].temp}} / {{item.data.hourly[5].pop * 100}}% / {{windDirection(item.data.hourly[5].wind_deg)}} {{item.data.hourly[5].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[5].weather[0].icon)"></i> {{item.data.hourly[5].temp}} / {{item.data.hourly[5].pop * 100}}% / {{windDirection(item.data.hourly[5].wind_deg)}} {{item.data.hourly[5].wind_speed}}
+                                        / {{item.data.hourly[5].pressure}}</td>
                                 </tr>
                                 <!-- ***************7HR*************** -->
                                 <tr>
                                     <th scope="col ">7 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[6].temp}} / {{item.data.hourly[6].pop * 100}}% / {{windDirection(item.data.hourly[6].wind_deg)}} {{item.data.hourly[6].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[6].weather[0].icon)"></i> {{item.data.hourly[6].temp}} / {{item.data.hourly[6].pop * 100}}% / {{windDirection(item.data.hourly[6].wind_deg)}} {{item.data.hourly[6].wind_speed}}
+                                        / {{item.data.hourly[6].pressure}}</td>
                                 </tr>
                                 <!-- ***************8HR*************** -->
                                 <tr>
                                     <th scope="col ">8 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[7].temp}} / {{item.data.hourly[7].pop * 100}}% / {{windDirection(item.data.hourly[7].wind_deg)}} {{item.data.hourly[7].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[7].weather[0].icon)"></i> {{item.data.hourly[7].temp}} / {{item.data.hourly[7].pop * 100}}% / {{windDirection(item.data.hourly[7].wind_deg)}} {{item.data.hourly[7].wind_speed}}
+                                        / {{item.data.hourly[7].pressure}}</td>
                                 </tr>
                                 <!-- ***************9HR*************** -->
                                 <tr>
                                     <th scope="col ">9 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[8].temp}} / {{item.data.hourly[8].pop * 100}}% / {{windDirection(item.data.hourly[8].wind_deg)}} {{item.data.hourly[8].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[8].weather[0].icon)"></i> {{item.data.hourly[8].temp}} / {{item.data.hourly[8].pop * 100}}% / {{windDirection(item.data.hourly[8].wind_deg)}} {{item.data.hourly[8].wind_speed}}
+                                        / {{item.data.hourly[8].pressure}}</td>
                                 </tr>
                                 <!-- ***************10HR*************** -->
                                 <tr>
                                     <th scope="col ">10 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[9].temp}} / {{item.data.hourly[9].pop * 100}}% / {{windDirection(item.data.hourly[9].wind_deg)}} {{item.data.hourly[9].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[9].weather[0].icon)"></i> {{item.data.hourly[9].temp}} / {{item.data.hourly[9].pop * 100}}% / {{windDirection(item.data.hourly[9].wind_deg)}} {{item.data.hourly[9].wind_speed}}
+                                        / {{item.data.hourly[9].pressure}}</td>
                                 </tr>
                                 <!-- ***************11HR*************** -->
                                 <tr>
                                     <th scope="col ">11 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[10].temp}} / {{item.data.hourly[10].pop * 100}}% / {{windDirection(item.data.hourly[10].wind_deg)}} {{item.data.hourly[10].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[10].weather[0].icon)"></i> {{item.data.hourly[10].temp}} / {{item.data.hourly[10].pop * 100}}% / {{windDirection(item.data.hourly[10].wind_deg)}} {{item.data.hourly[10].wind_speed}}
+                                        / {{item.data.hourly[10].pressure}}</td>
                                 </tr>
                                 <!-- ***************12HR*************** -->
                                 <tr>
                                     <th scope="col ">12 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[11].temp}} / {{item.data.hourly[11].pop * 100}}% / {{windDirection(item.data.hourly[11].wind_deg)}} {{item.data.hourly[11].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[11].weather[0].icon)"></i> {{item.data.hourly[11].temp}} / {{item.data.hourly[11].pop * 100}}% / {{windDirection(item.data.hourly[11].wind_deg)}} {{item.data.hourly[11].wind_speed}}
+                                        / {{item.data.hourly[11].pressure}}</td>
                                 </tr>
                                 <!-- ***************13HR*************** -->
                                 <tr>
                                     <th scope="col ">13 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[12].temp}} / {{item.data.hourly[12].pop * 100}}% / {{windDirection(item.data.hourly[12].wind_deg)}} {{item.data.hourly[12].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[12].weather[0].icon)"></i> {{item.data.hourly[12].temp}} / {{item.data.hourly[12].pop * 100}}% / {{windDirection(item.data.hourly[12].wind_deg)}} {{item.data.hourly[12].wind_speed}}
+                                        / {{item.data.hourly[12].pressure}}</td>
                                 </tr>
                                 <!-- ***************14HR*************** -->
                                 <tr>
                                     <th scope="col ">14 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[13].temp}} / {{item.data.hourly[13].pop * 100}}% / {{windDirection(item.data.hourly[13].wind_deg)}} {{item.data.hourly[13].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[13].weather[0].icon)"></i> {{item.data.hourly[13].temp}} / {{item.data.hourly[13].pop * 100}}% / {{windDirection(item.data.hourly[13].wind_deg)}} {{item.data.hourly[13].wind_speed}}
+                                        / {{item.data.hourly[13].pressure}}</td>
                                 </tr>
                                 <!-- ***************15HR*************** -->
                                 <tr>
                                     <th scope="col ">15 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[14].temp}} / {{item.data.hourly[14].pop * 100}}% / {{windDirection(item.data.hourly[14].wind_deg)}} {{item.data.hourly[14].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[14].weather[0].icon)"></i> {{item.data.hourly[14].temp}} / {{item.data.hourly[14].pop * 100}}% / {{windDirection(item.data.hourly[14].wind_deg)}} {{item.data.hourly[14].wind_speed}}
+                                        / {{item.data.hourly[14].pressure}}</td>
                                 </tr>
                                 <!-- ***************16HR*************** -->
                                 <tr>
                                     <th scope="col ">16 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[15].temp}} / {{item.data.hourly[15].pop * 100}}% / {{windDirection(item.data.hourly[15].wind_deg)}} {{item.data.hourly[15].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[15].weather[0].icon)"></i> {{item.data.hourly[15].temp}} / {{item.data.hourly[15].pop * 100}}% / {{windDirection(item.data.hourly[15].wind_deg)}} {{item.data.hourly[15].wind_speed}}
+                                        / {{item.data.hourly[15].pressure}}</td>
                                 </tr>
                                 <!-- ***************17HR*************** -->
                                 <tr>
                                     <th scope="col ">17 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[16].temp}} / {{item.data.hourly[16].pop * 100}}% / {{windDirection(item.data.hourly[16].wind_deg)}} {{item.data.hourly[16].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[16].weather[0].icon)"></i> {{item.data.hourly[16].temp}} / {{item.data.hourly[16].pop * 100}}% / {{windDirection(item.data.hourly[16].wind_deg)}} {{item.data.hourly[16].wind_speed}}
+                                        / {{item.data.hourly[16].pressure}}</td>
                                 </tr>
                                 <!-- ***************18HR*************** -->
                                 <tr>
                                     <th scope="col ">18 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[17].temp}} / {{item.data.hourly[17].pop * 100}}% / {{windDirection(item.data.hourly[17].wind_deg)}} {{item.data.hourly[17].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[17].weather[0].icon)"></i> {{item.data.hourly[17].temp}} / {{item.data.hourly[17].pop * 100}}% / {{windDirection(item.data.hourly[17].wind_deg)}} {{item.data.hourly[17].wind_speed}}
+                                        / {{item.data.hourly[17].pressure}}</td>
                                 </tr>
                                 <!-- ***************19HR*************** -->
                                 <tr>
                                     <th scope="col ">19 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[18].temp}} / {{item.data.hourly[18].pop * 100}}% / {{windDirection(item.data.hourly[18].wind_deg)}} {{item.data.hourly[18].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[18].weather[0].icon)"></i> {{item.data.hourly[18].temp}} / {{item.data.hourly[18].pop * 100}}% / {{windDirection(item.data.hourly[18].wind_deg)}} {{item.data.hourly[18].wind_speed}}
+                                        / {{item.data.hourly[18].pressure}}</td>
                                 </tr>
                                 <!-- ***************20HR*************** -->
                                 <tr>
                                     <th scope="col ">20 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[19].temp}} / {{item.data.hourly[19].pop * 100}}% / {{windDirection(item.data.hourly[19].wind_deg)}} {{item.data.hourly[19].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[19].weather[0].icon)"></i> {{item.data.hourly[19].temp}} / {{item.data.hourly[19].pop * 100}}% / {{windDirection(item.data.hourly[19].wind_deg)}} {{item.data.hourly[19].wind_speed}}
+                                        / {{item.data.hourly[19].pressure}}</td>
                                 </tr>
                                 <!-- ***************21HR*************** -->
                                 <tr>
                                     <th scope="col ">21 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[20].temp}} / {{item.data.hourly[20].pop * 100}}% / {{windDirection(item.data.hourly[20].wind_deg)}} {{item.data.hourly[20].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[20].weather[0].icon)"></i> {{item.data.hourly[20].temp}} / {{item.data.hourly[20].pop * 100}}% / {{windDirection(item.data.hourly[20].wind_deg)}} {{item.data.hourly[20].wind_speed}}
+                                        / {{item.data.hourly[20].pressure}}</td>
                                 </tr>
                                 <!-- ***************22HR*************** -->
                                 <tr>
                                     <th scope="col ">22 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[21].temp}} / {{item.data.hourly[21].pop * 100}}% / {{windDirection(item.data.hourly[21].wind_deg)}} {{item.data.hourly[21].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[21].weather[0].icon)"></i> {{item.data.hourly[21].temp}} / {{item.data.hourly[21].pop * 100}}% / {{windDirection(item.data.hourly[21].wind_deg)}} {{item.data.hourly[21].wind_speed}}
+                                        / {{item.data.hourly[21].pressure}}</td>
                                 </tr>
                                 <!-- ***************23HR*************** -->
                                 <tr>
                                     <th scope="col ">23 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[22].temp}} / {{item.data.hourly[22].pop * 100}}% / {{windDirection(item.data.hourly[22].wind_deg)}} {{item.data.hourly[22].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[22].weather[0].icon)"></i> {{item.data.hourly[22].temp}} / {{item.data.hourly[22].pop * 100}}% / {{windDirection(item.data.hourly[22].wind_deg)}} {{item.data.hourly[22].wind_speed}}
+                                        / {{item.data.hourly[22].pressure}}</td>
                                 </tr>
                                 <!-- ***************24HR*************** -->
                                 <tr>
                                     <th scope="col ">24 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[23].temp}} / {{item.data.hourly[23].pop * 100}}% / {{windDirection(item.data.hourly[23].wind_deg)}} {{item.data.hourly[23].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[23].weather[0].icon)"></i> {{item.data.hourly[23].temp}} / {{item.data.hourly[23].pop * 100}}% / {{windDirection(item.data.hourly[23].wind_deg)}} {{item.data.hourly[23].wind_speed}}
+                                        / {{item.data.hourly[23].pressure}}</td>
                                 </tr>
                                 <!-- ***************25HR*************** -->
                                 <tr>
                                     <th scope="col ">25 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[24].temp}} / {{item.data.hourly[24].pop * 100}}% / {{windDirection(item.data.hourly[24].wind_deg)}} {{item.data.hourly[24].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[24].weather[0].icon)"></i> {{item.data.hourly[24].temp}} / {{item.data.hourly[24].pop * 100}}% / {{windDirection(item.data.hourly[24].wind_deg)}} {{item.data.hourly[24].wind_speed}}
+                                        / {{item.data.hourly[24].pressure}}</td>
                                 </tr>
                                 <!-- ***************26HR*************** -->
                                 <tr>
                                     <th scope="col ">26 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[25].temp}} / {{item.data.hourly[25].pop * 100}}% / {{windDirection(item.data.hourly[25].wind_deg)}} {{item.data.hourly[25].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[25].weather[0].icon)"></i> {{item.data.hourly[25].temp}} / {{item.data.hourly[25].pop * 100}}% / {{windDirection(item.data.hourly[25].wind_deg)}} {{item.data.hourly[25].wind_speed}}
+                                        / {{item.data.hourly[25].pressure}}</td>
                                 </tr>
                                 <!-- ***************27HR*************** -->
                                 <tr>
                                     <th scope="col ">27 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[26].temp}} / {{item.data.hourly[26].pop * 100}}% / {{windDirection(item.data.hourly[26].wind_deg)}} {{item.data.hourly[26].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[26].weather[0].icon)"></i> {{item.data.hourly[26].temp}} / {{item.data.hourly[26].pop * 100}}% / {{windDirection(item.data.hourly[26].wind_deg)}} {{item.data.hourly[26].wind_speed}}
+                                        / {{item.data.hourly[26].pressure}}</td>
                                 </tr>
                                 <!-- ***************28HR*************** -->
                                 <tr>
                                     <th scope="col ">28 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[27].temp}} / {{item.data.hourly[27].pop * 100}}% / {{windDirection(item.data.hourly[27].wind_deg)}} {{item.data.hourly[27].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[27].weather[0].icon)"></i> {{item.data.hourly[27].temp}} / {{item.data.hourly[27].pop * 100}}% / {{windDirection(item.data.hourly[27].wind_deg)}} {{item.data.hourly[27].wind_speed}}
+                                        / {{item.data.hourly[27].pressure}}</td>
                                 </tr>
                                 <!-- ***************29HR*************** -->
                                 <tr>
                                     <th scope="col ">29 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[28].temp}} / {{item.data.hourly[28].pop * 100}}% / {{windDirection(item.data.hourly[28].wind_deg)}} {{item.data.hourly[28].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[28].weather[0].icon)"></i> {{item.data.hourly[28].temp}} / {{item.data.hourly[28].pop * 100}}% / {{windDirection(item.data.hourly[28].wind_deg)}} {{item.data.hourly[28].wind_speed}}
+                                        / {{item.data.hourly[28].pressure}}</td>
                                 </tr>
                                 <!-- ***************30HR*************** -->
                                 <tr>
                                     <th scope="col ">30 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[29].temp}} / {{item.data.hourly[29].pop * 100}}% / {{windDirection(item.data.hourly[29].wind_deg)}} {{item.data.hourly[29].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[29].weather[0].icon)"></i> {{item.data.hourly[29].temp}} / {{item.data.hourly[29].pop * 100}}% / {{windDirection(item.data.hourly[29].wind_deg)}} {{item.data.hourly[29].wind_speed}}
+                                        / {{item.data.hourly[29].pressure}}</td>
                                 </tr>
                                 <!-- ***************31HR*************** -->
                                 <tr>
                                     <th scope="col ">31 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[30].temp}} / {{item.data.hourly[30].pop * 100}}% / {{windDirection(item.data.hourly[30].wind_deg)}} {{item.data.hourly[30].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[30].weather[0].icon)"></i> {{item.data.hourly[30].temp}} / {{item.data.hourly[30].pop * 100}}% / {{windDirection(item.data.hourly[30].wind_deg)}} {{item.data.hourly[30].wind_speed}}
+                                        / {{item.data.hourly[30].pressure}}</td>
                                 </tr>
                                 <!-- ***************32HR*************** -->
                                 <tr>
                                     <th scope="col ">32 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[31].temp}} / {{item.data.hourly[31].pop * 100}}% / {{windDirection(item.data.hourly[31].wind_deg)}} {{item.data.hourly[31].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[31].weather[0].icon)"></i> {{item.data.hourly[31].temp}} / {{item.data.hourly[31].pop * 100}}% / {{windDirection(item.data.hourly[31].wind_deg)}} {{item.data.hourly[31].wind_speed}}
+                                        / {{item.data.hourly[31].pressure}}</td>
                                 </tr>
-                                <!-- ***************32HR*************** -->
+                                <!-- ***************33HR*************** -->
                                 <tr>
-                                    <th scope="col ">32 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[32].temp}} / {{item.data.hourly[32].pop * 100}}% / {{windDirection(item.data.hourly[32].wind_deg)}} {{item.data.hourly[32].wind_speed}}</td>
+                                    <th scope="col ">33 Hr </th>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[32].weather[0].icon)"></i> {{item.data.hourly[32].temp}} / {{item.data.hourly[32].pop * 100}}% / {{windDirection(item.data.hourly[32].wind_deg)}} {{item.data.hourly[32].wind_speed}}
+                                        / {{item.data.hourly[32].pressure}}</td>
                                 </tr>
                                 <!-- ***************34HR*************** -->
                                 <tr>
                                     <th scope="col ">34 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[33].temp}} / {{item.data.hourly[33].pop * 100}}% / {{windDirection(item.data.hourly[33].wind_deg)}} {{item.data.hourly[33].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[33].weather[0].icon)"></i> {{item.data.hourly[33].temp}} / {{item.data.hourly[33].pop * 100}}% / {{windDirection(item.data.hourly[33].wind_deg)}} {{item.data.hourly[33].wind_speed}}
+                                        / {{item.data.hourly[33].pressure}}</td>
                                 </tr>
                                 <!-- ***************35HR*************** -->
                                 <tr>
                                     <th scope="col ">35 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[34].temp}} / {{item.data.hourly[34].pop * 100}}% / {{windDirection(item.data.hourly[34].wind_deg)}} {{item.data.hourly[34].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[34].weather[0].icon)"></i> {{item.data.hourly[34].temp}} / {{item.data.hourly[34].pop * 100}}% / {{windDirection(item.data.hourly[34].wind_deg)}} {{item.data.hourly[34].wind_speed}}
+                                        / {{item.data.hourly[34].pressure}}</td>
                                 </tr>
                                 <!-- ***************36HR*************** -->
                                 <tr>
                                     <th scope="col ">36 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[35].temp}} / {{item.data.hourly[35].pop * 100}}% / {{windDirection(item.data.hourly[35].wind_deg)}} {{item.data.hourly[35].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[35].weather[0].icon)"></i> {{item.data.hourly[35].temp}} / {{item.data.hourly[35].pop * 100}}% / {{windDirection(item.data.hourly[35].wind_deg)}} {{item.data.hourly[35].wind_speed}}
+                                        / {{item.data.hourly[35].pressure}}</td>
                                 </tr>
                                 <!-- ***************37HR*************** -->
                                 <tr>
                                     <th scope="col ">37 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[36].temp}} / {{item.data.hourly[36].pop * 100}}% / {{windDirection(item.data.hourly[36].wind_deg)}} {{item.data.hourly[36].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[36].weather[0].icon)"></i> {{item.data.hourly[36].temp}} / {{item.data.hourly[36].pop * 100}}% / {{windDirection(item.data.hourly[36].wind_deg)}} {{item.data.hourly[36].wind_speed}}
+                                        / {{item.data.hourly[36].pressure}}</td>
                                 </tr>
                                 <!-- ***************38HR*************** -->
                                 <tr>
                                     <th scope="col ">38 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[37].temp}} / {{item.data.hourly[37].pop * 100}}% / {{windDirection(item.data.hourly[37].wind_deg)}} {{item.data.hourly[37].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[37].weather[0].icon)"></i> {{item.data.hourly[37].temp}} / {{item.data.hourly[37].pop * 100}}% / {{windDirection(item.data.hourly[37].wind_deg)}} {{item.data.hourly[37].wind_speed}}
+                                        / {{item.data.hourly[37].pressure}}</td>
                                 </tr>
                                 <!-- ***************39HR*************** -->
                                 <tr>
                                     <th scope="col ">39 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[38].temp}} / {{item.data.hourly[38].pop * 100}}% / {{windDirection(item.data.hourly[38].wind_deg)}} {{item.data.hourly[38].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[38].weather[0].icon)"></i> {{item.data.hourly[38].temp}} / {{item.data.hourly[38].pop * 100}}% / {{windDirection(item.data.hourly[38].wind_deg)}} {{item.data.hourly[38].wind_speed}}
+                                        / {{item.data.hourly[38].pressure}}</td>
                                 </tr>
                                 <!-- ***************40HR*************** -->
                                 <tr>
                                     <th scope="col ">40 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[39].temp}} / {{item.data.hourly[39].pop * 100}}% / {{windDirection(item.data.hourly[39].wind_deg)}} {{item.data.hourly[39].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[39].weather[0].icon)"></i> {{item.data.hourly[39].temp}} / {{item.data.hourly[39].pop * 100}}% / {{windDirection(item.data.hourly[39].wind_deg)}} {{item.data.hourly[39].wind_speed}}
+                                        / {{item.data.hourly[39].pressure}}</td>
                                 </tr>
                                 <!-- ***************41HR*************** -->
                                 <tr>
                                     <th scope="col ">41 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[40].temp}} / {{item.data.hourly[40].pop * 100}}% / {{windDirection(item.data.hourly[40].wind_deg)}} {{item.data.hourly[40].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[40].weather[0].icon)"></i> {{item.data.hourly[40].temp}} / {{item.data.hourly[40].pop * 100}}% / {{windDirection(item.data.hourly[40].wind_deg)}} {{item.data.hourly[40].wind_speed}}
+                                        / {{item.data.hourly[40].pressure}}</td>
                                 </tr>
                                 <!-- ***************42HR*************** -->
                                 <tr>
                                     <th scope="col ">42 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[41].temp}} / {{item.data.hourly[41].pop * 100}}% / {{windDirection(item.data.hourly[41].wind_deg)}} {{item.data.hourly[41].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[41].weather[0].icon)"></i> {{item.data.hourly[41].temp}} / {{item.data.hourly[41].pop * 100}}% / {{windDirection(item.data.hourly[41].wind_deg)}} {{item.data.hourly[41].wind_speed}}
+                                        / {{item.data.hourly[41].pressure}}</td>
                                 </tr>
                                 <!-- ***************43HR*************** -->
                                 <tr>
                                     <th scope="col ">43 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[42].temp}} / {{item.data.hourly[42].pop * 100}}% / {{windDirection(item.data.hourly[42].wind_deg)}} {{item.data.hourly[42].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[42].weather[0].icon)"></i> {{item.data.hourly[42].temp}} / {{item.data.hourly[42].pop * 100}}% / {{windDirection(item.data.hourly[42].wind_deg)}} {{item.data.hourly[42].wind_speed}}
+                                        / {{item.data.hourly[42].pressure}}</td>
                                 </tr>
                                 <!-- ***************44HR*************** -->
                                 <tr>
                                     <th scope="col ">44 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[43].temp}} / {{item.data.hourly[43].pop * 100}}% / {{windDirection(item.data.hourly[43].wind_deg)}} {{item.data.hourly[43].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[43].weather[0].icon)"></i> {{item.data.hourly[43].temp}} / {{item.data.hourly[43].pop * 100}}% / {{windDirection(item.data.hourly[43].wind_deg)}} {{item.data.hourly[43].wind_speed}}
+                                        / {{item.data.hourly[43].pressure}}</td>
                                 </tr>
                                 <!-- ***************45HR*************** -->
                                 <tr>
                                     <th scope="col ">45 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[44].temp}} / {{item.data.hourly[44].pop * 100}}% / {{windDirection(item.data.hourly[44].wind_deg)}} {{item.data.hourly[44].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[44].weather[0].icon)"></i> {{item.data.hourly[44].temp}} / {{item.data.hourly[44].pop * 100}}% / {{windDirection(item.data.hourly[44].wind_deg)}} {{item.data.hourly[44].wind_speed}}
+                                        / {{item.data.hourly[44].pressure}}</td>
                                 </tr>
                                 <!-- ***************46HR*************** -->
                                 <tr>
                                     <th scope="col ">46 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[45].temp}} / {{item.data.hourly[45].pop * 100}}% / {{windDirection(item.data.hourly[45].wind_deg)}} {{item.data.hourly[45].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[45].weather[0].icon)"></i> {{item.data.hourly[45].temp}} / {{item.data.hourly[45].pop * 100}}% / {{windDirection(item.data.hourly[45].wind_deg)}} {{item.data.hourly[45].wind_speed}}
+                                        / {{item.data.hourly[45].pressure}}</td>
                                 </tr>
                                 <!-- ***************47HR*************** -->
                                 <tr>
                                     <th scope="col ">47 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[46].temp}} / {{item.data.hourly[46].pop * 100}}% / {{windDirection(item.data.hourly[46].wind_deg)}} {{item.data.hourly[46].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[46].weather[0].icon)"></i> {{item.data.hourly[46].temp}} / {{item.data.hourly[46].pop * 100}}% / {{windDirection(item.data.hourly[46].wind_deg)}} {{item.data.hourly[46].wind_speed}}
+                                        / {{item.data.hourly[46].pressure}}</td>
                                 </tr>
                                 <!-- ***************48HR*************** -->
                                 <tr>
                                     <th scope="col ">48 Hr </th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.hourly[47].temp}} / {{item.data.hourly[47].pop * 100}}% / {{windDirection(item.data.hourly[47].wind_deg)}} {{item.data.hourly[47].wind_speed}}</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index"><i :class="getWeatherIconClass(item.data.hourly[47].weather[0].icon)"></i> {{item.data.hourly[47].temp}} / {{item.data.hourly[47].pop * 100}}% / {{windDirection(item.data.hourly[47].wind_deg)}} {{item.data.hourly[47].wind_speed}}
+                                        / {{item.data.hourly[47].pressure}}</td>
                                 </tr>
                             </tbody>
                         </table>

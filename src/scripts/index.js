@@ -193,20 +193,19 @@ const App = new Vue({
                         this.chartSelectListData.items.push("Temperatura Mínima (Min)");
                         this.chartSelectListData.items.push("PoP");
                         this.chartSelectListData.items.push("Humedad");
-                        this.chartSelectListData.items.push("Velocidad del Viento");
                         break;
                     case 10:
                         this.chartSelectListData.items.push("Temperatura (Temp)");
                         this.chartSelectListData.items.push("PoP");
-                        this.chartSelectListData.items.push("Velocidad del Viento");
                         break;
                     default:
                         if (index == 1) this.chartSelectListData.items.push("Temperatura: Max / Min / Ahora / S.T.");
                         else this.chartSelectListData.items.push("Temperatura:  Max / Min");
                         this.chartSelectListData.items.push("PoP / Humedad");
-                        this.chartSelectListData.items.push("Velocidad del Viento");
                         break;
                 }
+                this.chartSelectListData.items.push("Velocidad del Viento");
+                this.chartSelectListData.items.push("Presión");
             } else {
                 this.chartSelectListData.items = [this.chartSelectListData.selectedItemsLabelsArr[0] + " > " + this.chartSelectListData.selectedItemsLabelsArr[1] + " > Presiona el botón +"];
                 this.chartSelectListData.disabledToggle = true;

@@ -34,8 +34,15 @@ const getMyChart = (itemsArr, mode) => {
             pathArr: [
                 ["daily", day, "wind_speed"],
             ],
-            dataSetLabel: ["Velocidad del Viento"],
+            dataSetLabel: ["Velocidad del Viento [km/h]"],
             title: `Velocidad del Viento: ${day == 0 ? "Hoy" : getNextDaysLabels(day)} [km/h]`
+        })
+        else if (mode[1] == 4) return barChartMultipleDataset(itemsArr, {
+            pathArr: [
+                ["daily", day, "pressure"],
+            ],
+            dataSetLabel: ["Presión [hPa]"],
+            title: `Presión: ${day == 0 ? "Hoy" : getNextDaysLabels(day)} [hPa]`
         })
     } else if (mode[0] == 9) { // 7 Días
         if (mode[1] == 1) return lineChartMultipleDataset(itemsArr, {
@@ -58,6 +65,10 @@ const getMyChart = (itemsArr, mode) => {
             pathArr: ["daily", "wind_speed"],
             title: "Pronóstico a 7 días la Velocidad del Viento [km/h]"
         });
+        if (mode[1] == 6) return lineChartMultipleDataset(itemsArr, {
+            pathArr: ["daily", "pressure"],
+            title: "Pronóstico a 7 días de la Presión [hPa]"
+        });
     } else if (mode[0] == 10) { // 48hr
         if (mode[1] == 1) return lineChartMultipleDataset(itemsArr, {
             pathArr: ["hourly", "temp"],
@@ -70,6 +81,10 @@ const getMyChart = (itemsArr, mode) => {
         if (mode[1] == 3) return lineChartMultipleDataset(itemsArr, {
             pathArr: ["hourly", "wind_speed"],
             title: "Pronóstico a 48 horas de la Velocidad del Viento [km/h]"
+        });
+        if (mode[1] == 4) return lineChartMultipleDataset(itemsArr, {
+            pathArr: ["hourly", "pressure"],
+            title: "Pronóstico a 48 horas de la Presión [hPa]"
         });
     }
 }
