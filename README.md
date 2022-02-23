@@ -11,7 +11,7 @@ Se consumen datos del API abierto de [OpenWeatherMap](https://openweathermap.org
 ### Algunos objetivos técnicos que se buscan son los siguientes:
 
  - Aplicación de una sola página ó Single Page Application (SPA).
- - Realizar una conexión a una API externa para consumir datos.
+ - Realizar una conexión a una API externa para consumir datos (JSON).
  - Utilización de Bootstrap con estilos predefinidos.
  - Usar un ambiente de desarrollo con Node.js.
  - Uso de fetch para el consumo de datos.
@@ -38,7 +38,7 @@ Data is consumed from the open API of [OpenWeatherMap](https://openweathermap.or
 ### Some technical objectives that are sought are the following:
 
  - Application of a single page or Single Page Application (SPA).
- - Make a connection to an external API to consume data.
+ - Make a connection to an external API to consume data (JSON).
  - Use of Bootstrap with predefined styles.
  - Use a development environment with Node.js.
  - Use of fetch for data consumption.
