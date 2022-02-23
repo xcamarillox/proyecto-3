@@ -327,7 +327,8 @@ const App = new Vue({
             }
             this.saveSelectedItems()
             window.localStorage.setItem("myChartsSetupArr", JSON.stringify(myData));
-            console.log(this.itemsToShow)
+            //console.log(this.myCharts);
+            //console.log(this.itemsToShow)
         },
     },
     watch: {},

@@ -116,6 +116,20 @@ header span {
     cursor: pointer;
 }
 
+.hoy-rel {
+    position: relative;
+    top: -40px;
+    left: -10px;
+}
+
+.hoy-rel i {
+    color: rgb(230, 230, 230);
+}
+
+.hoy-rel>a:hover {
+    cursor: pointer;
+}
+
 .hoy-container {
     display: flex;
     flex-wrap: wrap;
@@ -200,4 +214,14 @@ header span {
 i.hoy {
     font-size: 50px;
     color: white;
+}
+
+.chart-div {
+    margin-bottom: 80px;
+}
+
+.form-label {
+    display: inline-block;
+    text-align: center;
+    font-weight: 600;
 }

@@ -56,6 +56,9 @@
                     <div :class="selectedItems.length > 0 ? 'hoy-container' : ''">
                         <div class="hoy-item item" v-for="(item, index) in itemsToShow" :key="index">
                             <div>
+                                <div class="hoy-rel">
+                                    <a class="text-secondary" @click="deleteItem(itemsToShow[index].selectedItemsIndex)"><i class="fa-regular fa-circle-xmark fa-lg"></i></a>
+                                </div>
                                 <!-- lugar -->
                                 {{etiquetasLugares(itemsToShow, index)}}
                             </div>
@@ -107,43 +110,67 @@
                     <!-- ********************** CHART ********************** -->
                     <div class="grafica" v-show="itemsToShow.length > 0">
                         <h2 class="border-bottom">Gráficas</h2>
-                        <div v-show="myCharts.length > 0">
+                        <div v-show="myCharts.length > 0" class="chart-div">
                             <div class="chart-rel">
-                                <a class="text-secondary" class="chart-rel" @click="deleteItemChart(0)" v-show="myCharts.length > 1"><i class="fa-regular fa-circle-xmark fa-lg"></i></a>
+                                <a class="text-secondary" @click="deleteItemChart(0)" v-show="myCharts.length > 1"><i class="fa-regular fa-circle-xmark fa-lg"></i></a>
                             </div>
                             <canvas class="my-4 w-100 " id="myChart0" width="900 " height="380 "></canvas>
+                            <div v-if="myCharts[0] != undefined && myCharts[0].setup[0]<9">
+                                <label for="myRange0" class="form-label">{{myCharts[0].setup[0] - 1 == 0 ? 'Hoy': proximosDias[myCharts[0].setup[0] - 1]}}</label>
+                                <input type="range" class="form-range" min="1" max="8" step="1" id="myRange0" v-model="myCharts[0].setup[0]" @change="updateChartData(true)">
+                            </div>
                         </div>
-                        <div v-show="myCharts.length > 1">
+                        <div v-show="myCharts.length> 1" class="chart-div">
                             <div class="chart-rel">
                                 <a class="text-secondary" @click="deleteItemChart(1)" v-show="myCharts.length > 1"><i class="fa-regular fa-circle-xmark fa-lg"></i></a>
                             </div>
                             <canvas class="my-4 w-100 " id="myChart1" width="900 " height="380 "></canvas>
+                            <div v-if="myCharts[1] != undefined && myCharts[1].setup[0]<9">
+                                <label for="myRange1" class="form-label">{{myCharts[1].setup[0] - 1 == 0 ? 'Hoy': proximosDias[myCharts[1].setup[0] - 1]}}</label>
+                                <input type="range" class="form-range" min="1" max="8" step="1" id="myRange1" v-model="myCharts[1].setup[0]" @change="updateChartData(true)">
+                            </div>
                         </div>
-                        <div v-show="myCharts.length > 2">
+                        <div v-show="myCharts.length > 2" class="chart-div">
                             <div class="chart-rel">
                                 <a class="text-secondary" @click="deleteItemChart(2)" v-show="myCharts.length > 1"><i class="fa-regular fa-circle-xmark fa-lg"></i></a>
                             </div>
                             <canvas class="my-4 w-100 " id="myChart2" width="900 " height="380 "></canvas>
+                            <div v-if="myCharts[2] != undefined && myCharts[2].setup[0]<9">
+                                <label for="myRange2" class="form-label">{{myCharts[2].setup[0] - 1 == 0 ? 'Hoy': proximosDias[myCharts[2].setup[0] - 1]}}</label>
+                                <input type="range" class="form-range" min="1" max="8" step="1" id="myRange2" v-model="myCharts[2].setup[0]" @change="updateChartData(true)">
+                            </div>
                         </div>
-                        <div v-show="myCharts.length > 3">
+                        <div v-show="myCharts.length > 3" class="chart-div">
                             <div class="chart-rel">
                                 <a class="text-secondary" @click="deleteItemChart(3)" v-show="myCharts.length > 1"><i class="fa-regular fa-circle-xmark fa-lg"></i></a>
                             </div>
                             <canvas class="my-4 w-100 " id="myChart3" width="900 " height="380 "></canvas>
+                            <div v-if="myCharts[3] != undefined && myCharts[3].setup[0]<9">
+                                <label for="myRange3" class="form-label">{{myCharts[3].setup[0] - 1 == 0 ? 'Hoy': proximosDias[myCharts[3].setup[0] - 1]}}</label>
+                                <input type="range" class="form-range" min="1" max="8" step="1" id="myRange3" v-model="myCharts[3].setup[0]" @change="updateChartData(true)">
+                            </div>
                         </div>
-                        <div v-show="myCharts.length > 4">
+                        <div v-show="myCharts.length > 4" class="chart-div">
                             <div class="chart-rel">
                                 <a class="text-secondary" @click="deleteItemChart(4)" v-show="myCharts.length > 1"><i class="fa-regular fa-circle-xmark fa-lg"></i></a>
                             </div>
                             <canvas class="my-4 w-100 " id="myChart4" width="900 " height="380 "></canvas>
+                            <div v-if="myCharts[4] != undefined && myCharts[4].setup[0]<9">
+                                <label for="myRange4" class="form-label">{{myCharts[4].setup[0] - 1 == 0 ? 'Hoy': proximosDias[myCharts[4].setup[0] - 1]}}</label>
+                                <input type="range" class="form-range" min="1" max="8" step="1" id="myRange4" v-model="myCharts[4].setup[0]" @change="updateChartData(true)">
+                            </div>
                         </div>
-                        <div v-show="myCharts.length > 5">
+                        <div v-show="myCharts.length > 5" class="chart-div">
                             <div class="chart-rel">
                                 <a class="text-secondary" @click="deleteItemChart(5)" v-show="myCharts.length > 1"><i class="fa-regular fa-circle-xmark fa-lg"></i></a>
                             </div>
                             <canvas class="my-4 w-100 " id="myChart5" width="900 " height="380 "></canvas>
+                            <div v-if="myCharts[5] != undefined && myCharts[5].setup[0]<9">
+                                <label for="myRange5" class="form-label">{{myCharts[5].setup[0] - 1 == 0 ? 'Hoy': proximosDias[myCharts[5].setup[0] - 1]}}</label>
+                                <input type="range" class="form-range" min="1" max="8" step="1" id="myRange5" v-model="myCharts[5].setup[0]" @change="updateChartData(true)">
+                            </div>
                         </div>
-                        <div class="input-group mb-3" v-if="myCharts.length < 6">
+                        <div class="input-group chart-div" v-if="myCharts.length < 6">
                             <span class="input-group-text" id="basic-addon1">Añade otra gráfica</span>
                             <select v-model="chartSelectListData.selectedItemIndex" :disabled="chartSelectListData.disabledToggle" class="form-select" @change="changeOnChartSelect($event.target.selectedIndex)">
                                 <option :value="index" v-for="(item, index) in chartSelectListData.items" :key="index">{{item}}</option>
