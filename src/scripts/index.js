@@ -322,7 +322,7 @@ const App = new Vue({
                 if (this.myCharts[i] != undefined) {
                     if (this.myCharts[i].setup != undefined) myData.push(this.myCharts[i].setup);
                     if (this.myCharts[i].chart != undefined) this.myCharts[i].chart.destroy();
-                    this.myCharts[i].chart = new Chart('myChart' + i, getMyChart(this.itemsToShow, this.myCharts[i].setup));
+                    this.myCharts[i].chart = new Chart('myChart' + i, getMyChart(this.itemsToShow, this.myCharts[i].setup, i + 1));
                 }
             }
             this.saveSelectedItems()
