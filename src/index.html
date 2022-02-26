@@ -92,7 +92,7 @@
                                         </tr>
                                         <tr>
                                             <td>PoP</td>
-                                            <td>{{item.data.daily[0].pop * 100}}%</td>
+                                            <td>{{Math.floor(item.data.daily[0].pop * 100)}}%</td>
                                         </tr>
                                         <tr>
                                             <td>Presión</td>
@@ -170,6 +170,7 @@
                                 <input type="range" class="form-range" min="1" max="8" step="1" id="myRange5" v-model="myCharts[5].setup[0]" @change="updateChartData(true)">
                             </div>
                         </div>
+                        <div :class="!chartSelectListData.selectToggle ? 'text-danger fw-bold' : 'opacity-0'">Completa tu selección</div>
                         <div class="input-group chart-div" v-if="myCharts.length < 6">
                             <span class="input-group-text" id="basic-addon1">Añade otra gráfica</span>
                             <select v-model="chartSelectListData.selectedItemIndex" :disabled="chartSelectListData.disabledToggle" class="form-select" @change="changeOnChartSelect($event.target.selectedIndex)">
@@ -207,7 +208,7 @@
                                 </tr>
                                 <tr>
                                     <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad [%]</th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[0].pop * 100}}% / {{item.data.daily[0].humidity}}%</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index">{{Math.floor(item.data.daily[0].pop * 100)}}% / {{item.data.daily[0].humidity}}%</td>
                                 </tr>
                                 <tr>
                                     <th scope="col ">Dirección y Velocidad del Viento [km/h]</th>
@@ -227,7 +228,7 @@
                                 </tr>
                                 <tr>
                                     <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad [%]</th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[1].pop * 100}}% / {{item.data.daily[1].humidity}}%</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index">{{Math.floor(item.data.daily[1].pop * 100)}}% / {{item.data.daily[1].humidity}}%</td>
                                 </tr>
                                 <tr>
                                     <th scope="col ">Dirección y Velocidad del Viento [km/h]</th>
@@ -247,7 +248,7 @@
                                 </tr>
                                 <tr>
                                     <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad [%]</th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[2].pop * 100}}% / {{item.data.daily[2].humidity}}%</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index">{{Math.floor(item.data.daily[2].pop * 100)}}% / {{item.data.daily[2].humidity}}%</td>
                                 </tr>
                                 <tr>
                                     <th scope="col ">Dirección y Velocidad del Viento [km/h]</th>
@@ -267,7 +268,7 @@
                                 </tr>
                                 <tr>
                                     <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad [%]</th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[3].pop * 100}}% / {{item.data.daily[3].humidity}}%</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index">{{Math.floor(item.data.daily[3].pop * 100)}}% / {{item.data.daily[3].humidity}}%</td>
                                 </tr>
                                 <tr>
                                     <th scope="col ">Dirección y Velocidad del Viento [km/h]</th>
@@ -287,7 +288,7 @@
                                 </tr>
                                 <tr>
                                     <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad [%]</th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[4].pop * 100}}% / {{item.data.daily[4].humidity}}%</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index">{{Math.floor(item.data.daily[4].pop * 100)}}% / {{item.data.daily[4].humidity}}%</td>
                                 </tr>
                                 <tr>
                                     <th scope="col ">Dirección y Velocidad del Viento [km/h]</th>
@@ -307,7 +308,7 @@
                                 </tr>
                                 <tr>
                                     <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad [%]</th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[5].pop * 100}}% / {{item.data.daily[5].humidity}}%</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index">{{Math.floor(item.data.daily[5].pop * 100)}}% / {{item.data.daily[5].humidity}}%</td>
                                 </tr>
                                 <tr>
                                     <th scope="col ">Dirección y Velocidad del Viento [km/h]</th>
@@ -327,7 +328,7 @@
                                 </tr>
                                 <tr>
                                     <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad [%]</th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[6].pop * 100}}% / {{item.data.daily[6].humidity}}%</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index">{{Math.floor(item.data.daily[6].pop * 100)}}% / {{item.data.daily[6].humidity}}%</td>
                                 </tr>
                                 <tr>
                                     <th scope="col ">Dirección y Velocidad del Viento [km/h]</th>
@@ -347,7 +348,7 @@
                                 </tr>
                                 <tr>
                                     <th scope="col ">Probabilidad de Precipitación (PoP) / Humedad [%]</th>
-                                    <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[7].pop * 100}}% / {{item.data.daily[7].humidity}}%</td>
+                                    <td v-for="(item, index) in itemsToShow" :key="index">{{Math.floor(item.data.daily[7].pop * 100)}}% / {{item.data.daily[7].humidity}}%</td>
                                 </tr>
                                 <tr>
                                     <th scope="col ">Dirección y Velocidad del Viento [km/h]</th>
@@ -358,7 +359,7 @@
                                     <td v-for="(item, index) in itemsToShow" :key="index">{{item.data.daily[7].pressure}}</td>
                                 </tr>
                                 <tr>
-                                    <th :colspan="selectedItems.length + 1" class="text-center">Pronóstico a 48 horas [Temp (°C) / PoP (%) / Viento (km/h)] / Presión (hPa)</th>
+                                    <th :colspan="selectedItems.length + 1" class="text-center">Pronóstico a 48 horas [ Temp (°C) / PoP (%) / Viento (km/h)] / Presión (hPa) ]</th>
                                 </tr>
                                 <!-- ***************1HR*************** -->
                                 <tr>
@@ -663,6 +664,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+                        <div :class="!modalSelectListData.cityToggle && modalData.radioValue == 1  ? 'text-danger fw-bold' : 'opacity-0'">Completa tu selección</div>
                         <div class="input-group mb-3">
                             <span class="input-group-text">
                                 <input class="form-check-input mt-0" type="radio" name="flexRadioDefault" id="flexRadio1" v-model="modalData.radioValue" value="1" @change=changeOnRadio>
