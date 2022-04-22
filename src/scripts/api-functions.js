@@ -1,4 +1,5 @@
-const APIkey = "0daa5082c483deefa2dd813c45f8a087";
+// Development
+const APIkey = process.env.API_KEY
 
 const getCompleteWeatherData = async(selectedItems, wantedIndex, wantedUnits) => {
     let weatherData = {
